@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TradeLink – Trusted Trades. Local.</title>
+<style>
+:root{--navy:#0b1a33;--blue:#1262ff;--bg:#f3f6fb;--card:#fff;--ink:#101a2e;--mut:#5d6b82;--line:#e1e7f0;--chip:#f1f4f9;--gold:#f5a623;--grn:#1fa971;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0a1424;--card:#111f36;--ink:#eaf0fb;--mut:#95a4bd;--line:#223452;--chip:#18283f;color-scheme:dark}}
+*{box-sizing:border-box;margin:0}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.wrap{max-width:1100px;margin:auto;padding:0 20px}
+header{background:var(--navy);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+.nav{display:flex;align-items:center;gap:28px;height:62px}
+.brand{display:flex;gap:8px;align-items:center;font-weight:700;font-size:17px;line-height:1.1;cursor:pointer}
+.brand small{display:block;font-weight:400;font-size:9px;opacity:.75}
+.links{display:flex;gap:26px;flex:1;margin-left:20px}
+.links a{font-size:12px;padding:21px 0;cursor:pointer;border-bottom:2px solid transparent}
+.links a.on{border-color:var(--blue)}
+.act{display:flex;gap:14px;align-items:center}
+.btn{background:var(--blue);color:#fff;padding:9px 18px;border-radius:7px;font-weight:600;display:inline-flex;gap:6px;align-items:center;justify-content:center}
+.btn.o{background:transparent;border:1px solid var(--blue);color:var(--blue)}
+.btn.w{border:1px solid #fff6;color:#fff}
+.btn.g{background:var(--card);border:1px solid var(--line);color:var(--ink);font-weight:500}
+.burger{display:none}.auth{display:flex;gap:10px}.icons{display:none;gap:16px}.nh .icons{display:flex}
+.hero{background:linear-gradient(90deg,#0b1a33f2 25%,#0b1a3390),radial-gradient(circle at 80% 30%,#6b5a44,#1a2438 60%);color:#fff;padding:48px 0 54px}
+.hero h1{font-size:34px;line-height:1.15;max-width:420px;margin-bottom:14px}
+.hero p{max-width:400px;opacity:.9;margin-bottom:22px;font-size:13px}.hero .row{display:flex;gap:12px}
+.mq{display:none}
+h2{font-size:18px}.sec{padding:26px 0}.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.sh a{color:var(--blue);font-size:12px;cursor:pointer}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px}
+.tp{padding:10px;position:relative;cursor:pointer}.tp .av{height:112px;border-radius:7px;margin-bottom:10px}
+.tp b{display:block;font-size:14px}.tp .m{font-size:12px;color:var(--mut)}
+.heart{position:absolute;top:16px;right:16px;width:26px;height:26px;border-radius:50%;background:#fffd;color:#333;display:grid;place-items:center}
+.heart.on svg{fill:#e5384f;stroke:#e5384f}.heart.p{position:static;background:none;color:var(--mut)}
+.rt{color:var(--gold);font-weight:600}.rt span{color:var(--mut);font-weight:400}
+.tag{display:inline-block;background:var(--chip);border-radius:5px;padding:2px 8px;font-size:11px;color:var(--mut);margin:6px 4px 0 0}
+.price{font-weight:700;font-size:15px}.price sup{font-size:9px;font-weight:400;color:var(--mut)}
+.feat{background:var(--chip);border-top:1px solid var(--line)}.feat .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:22px 20px}
+.feat div{display:flex;gap:12px;align-items:flex-start}.feat svg{width:34px;height:34px;color:var(--navy)}.feat p{font-size:11px;color:var(--mut)}
+.av{position:relative;overflow:hidden;display:block}
+.av svg{width:100%;height:100%;display:block}
+.bh{background:linear-gradient(90deg,#0b1a33f0 40%,#0b1a3395),radial-gradient(circle at 85% 40%,#7a6244,#18233a 65%);color:#fff;padding:38px 0 40px}
+.bh h1{font-size:28px;margin-bottom:8px}.bh p{font-size:13px;margin-bottom:20px}
+.sb{display:flex;background:var(--card);color:var(--ink);border-radius:8px;padding:5px;gap:4px}
+.sb label{flex:1;display:flex;gap:8px;align-items:center;padding:0 12px;color:var(--mut)}.sb label+label{border-left:1px solid var(--line)}
+.sb input{border:0;outline:0;background:none;width:100%;font:inherit;color:var(--ink);padding:10px 0}
+.bar{display:flex;justify-content:space-between;margin:20px 0 14px}
+select{font:inherit;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:8px 10px}
+.res{font-weight:600;margin-bottom:12px}
+.row2{display:flex;gap:16px;padding:14px;align-items:center;margin-bottom:12px}
+.row2 .av{width:112px;height:92px;border-radius:7px;flex:none}.row2 .mid{flex:1}.row2 .mid b{font-size:15px}
+.row2 .rg{display:flex;flex-direction:column;align-items:flex-end;gap:10px}.row2 .rg>div{display:flex;gap:10px;align-items:center}
+.bd{display:flex;gap:14px;font-size:11px;color:var(--mut);margin-top:8px;flex-wrap:wrap}.bd span{display:flex;gap:4px;align-items:center}.bd svg{width:13px;height:13px;color:var(--blue)}.bd .v svg{color:var(--grn)}
+.ov{position:fixed;inset:0;background:#0007;z-index:40;display:none}.ov.on{display:block}
+.pnl{position:absolute;left:0;top:0;bottom:0;width:min(320px,90vw);background:var(--card);padding:18px;display:flex;flex-direction:column;overflow:auto}
+.pnl h3{display:flex;justify-content:space-between;font-size:16px;margin-bottom:14px}.pnl h4{font-size:12px;margin:14px 0 8px}
+.opt{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:5px;font-size:13px;cursor:pointer}
+.opt:has(input:checked){background:#1262ff1a}.opt input{margin-left:auto;accent-color:var(--blue)}.opt input[type=checkbox]{margin:0}
+.ft{margin-top:auto;display:flex;gap:10px;padding-top:16px}.ft button{flex:1;padding:11px}
+.ph{display:flex;gap:20px;padding:20px 0 0;align-items:flex-start}.ph .av{width:170px;height:140px;border-radius:8px;flex:none}
+.ph h1{font-size:20px}.ph .info{flex:1}.ph .rgt{display:flex;gap:10px;align-items:center}
+.vf{color:var(--blue);font-size:12px}.tabs{display:flex;gap:26px;border-bottom:1px solid var(--line);margin:18px 0}
+.tabs a{padding:8px 0;font-size:13px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent}.tabs a.on{color:var(--blue);border-color:var(--blue)}
+.pg{display:grid;grid-template-columns:1.1fr 1.2fr 1fr;gap:14px}.pg .card{padding:16px}
+.pg h3{font-size:14px;margin-bottom:10px}.ir{display:flex;gap:10px;margin-top:14px;font-size:12px}.ir svg{color:var(--mut);margin-top:2px}.ir small{display:block;color:var(--mut)}
+.sv{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}.sv small{display:block;color:var(--mut);font-size:11px}
+.map{height:110px;border-radius:7px;background:linear-gradient(35deg,transparent 45%,#fff8 46% 48%,transparent 49%),linear-gradient(110deg,#dfe8d8 30%,#cfe0ef 31% 45%,#dfe8d8 46%);position:relative;margin-bottom:8px}
+.map svg{position:absolute;left:50%;top:38%;color:#e5384f;fill:#e5384f;width:26px;height:26px}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.gal .av{height:54px;border-radius:5px}
+.cta{display:flex;gap:10px;margin-top:16px}.cta .btn{flex:1}
+.tabbar{display:none}
+@media(max-width:760px){
+.links,.auth,.act .icons{display:none}.burger{display:block;margin-left:auto}.nav{gap:0}
+.hero{padding:26px 0 24px}.hero h1{font-size:24px}.hero .row{display:none}.mq{display:block;margin-top:14px;color:var(--ink)}
+.mq .card{padding:10px;display:grid;gap:8px}.mq label{display:flex;gap:8px;align-items:center;color:var(--mut)}.mq input{border:0;outline:0;background:none;font:inherit;width:100%;color:var(--ink)}
+.grid4{grid-template-columns:1fr}.tp{display:grid;grid-template-columns:96px 1fr;gap:12px}.tp .av{height:90px;margin:0}
+.feat .wrap{grid-template-columns:1fr}.sb{flex-direction:column}.sb label+label{border:0}
+.row2{flex-wrap:wrap}.row2 .av{width:84px;height:84px}.row2 .rg{flex-direction:row;width:100%;justify-content:space-between;align-items:center}
+.ph{flex-wrap:wrap}.ph .av{width:100%}.pg{grid-template-columns:1fr}
+.tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px));z-index:30}
+.tabbar a{display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--mut);gap:2px}.tabbar a.on{color:var(--blue)}
+body{padding-bottom:64px}}
+[hidden]{display:none!important}body.dsh header,body.dsh .tabbar{display:none}body.dsh{padding-bottom:0}
+.au{position:fixed;inset:0;z-index:60;background:linear-gradient(120deg,#0b1a33,#13294d 60%,#0b1a33);overflow:auto}
+.aw{min-height:100%;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;max-width:1000px;margin:auto;padding:30px 20px}
+.al{color:#fff}.al h1{font-size:34px;line-height:1.15;margin:34px 0 12px}.al p{opacity:.8;margin-bottom:26px}.af{display:flex;gap:14px;align-items:center;margin-bottom:16px}.af svg{width:44px;height:44px;padding:11px;border-radius:50%;background:#ffffff1a}.af small{display:block;opacity:.7;font-size:12px}
+.ac{background:var(--card);border-radius:12px;padding:26px;position:relative;max-width:420px;width:100%;justify-self:center}.ac h2{font-size:21px}.ac .m,.m{color:var(--mut);font-size:12px}.ac .x{position:absolute;right:16px;top:16px}
+.rl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 6px}.rl button{border:1px solid var(--line);border-radius:8px;padding:10px;text-align:left;font-size:12px;display:flex;gap:8px;align-items:center}.rl button.on{background:var(--blue);color:#fff;border-color:var(--blue)}.rl b{display:block;font-size:13px}
+.fl{display:block;margin-top:14px;font-size:12px;font-weight:600}.fi{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:7px;padding:0 10px;margin-top:6px;color:var(--mut)}.fi input{flex:1;border:0;outline:0;background:none;padding:11px 0;font:inherit;color:var(--ink);min-width:0}
+.ac .btn{width:100%;padding:12px;margin-top:16px}.dv{text-align:center;color:var(--mut);font-size:11px;margin:16px 0 12px}.so{display:grid;grid-template-columns:1fr 1fr;gap:10px}.so button{border:1px solid var(--line);border-radius:7px;padding:10px;font-size:13px}.sw{text-align:center;font-size:12px;margin-top:18px;color:var(--mut)}.sw a,.vf{color:var(--blue);cursor:pointer;font-size:12px}.er{color:#e5384f;font-size:12px;margin-top:10px}
+.dh{display:grid;grid-template-columns:220px 1fr;min-height:100vh}.sd{background:var(--navy);color:#fff;padding:18px 12px;display:flex;flex-direction:column;gap:3px;position:sticky;top:0;height:100vh}.sd .brand{margin:0 6px 18px}.sd a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:7px;cursor:pointer;font-size:13px;color:#cdd8ec}.sd a.on{background:#1b3a73;color:#fff}.sd .bg{margin-left:auto;background:#e5384f;color:#fff;border-radius:99px;font-size:10px;padding:1px 6px}.sd .lo{margin-top:auto}
+.dm{padding:18px 22px;min-width:0}.tb{display:flex;gap:16px;align-items:center;margin-bottom:18px}.sbx{flex:1;display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:0 12px;color:var(--mut)}.sbx input{border:0;outline:0;background:none;padding:10px 0;font:inherit;color:var(--ink);width:100%}.tb .av{width:34px;height:34px;border-radius:50%}
+.pad{padding:16px}.g2{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px}.pr{display:flex;gap:14px;align-items:center;margin-bottom:10px}.av.big{width:74px;height:74px;border-radius:50%;flex:none}
+.st{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}.st div{display:flex;gap:10px;align-items:center}.st b{display:block;font-size:20px}.st small{color:var(--mut);font-size:11px}.st svg{color:var(--blue);width:26px;height:26px}
+.bk{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}.bk>svg{width:38px;height:38px;padding:9px;background:var(--chip);border-radius:50%;color:var(--blue)}.bk span{flex:1}.cf{background:#1fa97120;color:var(--grn);font-size:11px;padding:2px 10px;border-radius:5px}.qa{display:block;width:100%;margin-top:10px;background:var(--chip);border-radius:7px;padding:12px;text-align:center;color:var(--blue);font-weight:600}
+.cv{height:110px;border-radius:10px 10px 0 0;background:linear-gradient(90deg,#5b4328,#2a3550 55%,#6a5438)}.tph{display:flex;gap:16px;align-items:flex-end;padding:0 18px 14px;margin-top:-44px;flex-wrap:wrap}.tph .av{width:92px;height:92px;border-radius:50%;border:3px solid var(--card)}.tph>div:nth-child(2){flex:1;min-width:180px}.dy{display:flex;justify-content:space-between;margin:10px 0;text-align:center;font-size:10px;color:var(--mut)}.dy i{display:block;width:10px;height:10px;border-radius:50%;margin:5px auto 0;border:1.5px solid var(--blue)}.dy i.f{background:var(--grn);border-color:var(--grn)}.gl{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.gl i{height:56px;border-radius:5px}
+.ms{display:grid;grid-template-columns:300px 1fr;height:min(560px,calc(100vh - 190px));margin-top:14px;overflow:hidden}.ml{border-right:1px solid var(--line);padding:12px;overflow:auto}.mi{display:flex;gap:10px;align-items:center;padding:10px 8px;border-radius:7px;cursor:pointer;margin-top:4px}.mi.on{background:var(--chip)}.mi>div{flex:1;min-width:0}.mi small,.mh small{display:block;color:var(--mut);font-size:11px}.mi>span{font-size:10px;color:var(--mut);text-align:right}.mi .av,.mh .av{width:38px;height:38px;border-radius:50%;flex:none}.ub{display:block;background:var(--blue);color:#fff;border-radius:50%;width:16px;height:16px;line-height:16px;text-align:center;margin:3px 0 0 auto;font-style:normal}
+.mc{display:flex;flex-direction:column;min-width:0}.mh{display:flex;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}.mh>div{flex:1}.del{color:#e5384f;font-size:12px;text-decoration:underline;cursor:pointer}.mb{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px}.bb{max-width:70%;padding:10px 14px;border-radius:10px;background:var(--chip);font-size:13px}.bb small{display:block;font-size:10px;color:var(--mut);margin-top:3px}.bb.me{align-self:flex-end;background:var(--blue);color:#fff}.bb.me small{color:#dbe6ff}
+.mf{display:flex;gap:12px;padding:12px 16px;border-top:1px solid var(--line)}.mf input{flex:1;border:0;outline:0;background:none;font:inherit;color:var(--ink)}.mf .btn{width:auto;margin:0;padding:10px 20px}
+@media(max-width:760px){.aw{grid-template-columns:1fr}.al h1{font-size:24px}.dh{grid-template-columns:1fr}.sd{position:fixed;top:auto;left:0;right:0;bottom:0;height:auto;flex-direction:row;justify-content:space-around;gap:0;padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px));z-index:30;border-top:1px solid #ffffff22}.sd .brand,.sd .lo,.sd a:not(.k){display:none}.sd a{position:relative;flex:1;flex-direction:column;justify-content:center;gap:2px;font-size:10px;padding:4px 6px;white-space:nowrap;background:none}.sd a.on{background:none;color:#4d8bff}.sd .bg{position:absolute;top:-2px;left:56%;margin:0}.dm{padding:14px 14px 90px}.g2{grid-template-columns:1fr}.st{grid-template-columns:1fr 1fr}.pg{grid-template-columns:1fr}.ms{grid-template-columns:1fr;height:auto}.ml{max-height:190px;border-right:0;border-bottom:1px solid var(--line)}.mb{min-height:260px}}
+@media(max-width:760px){header.mo .links{display:flex;position:absolute;top:62px;left:0;right:0;background:var(--navy);flex-direction:column;gap:0;margin:0;padding:6px 20px 12px}header.mo .links a{padding:14px 0}}
+.bk .av,.bk>.av{flex:none;width:36px;height:36px;border-radius:50%;overflow:hidden}
+.ftr{border-top:1px solid var(--line);padding:18px 0;color:var(--mut);font-size:12px}.ftr .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.ftr a{margin-left:16px;cursor:pointer}body.dsh .ftr{display:none}
+</style></head><body>
+
+<header><div class="wrap nav">
+<div class="brand" onclick="go('home')"><svg class="i" style="width:34px;height:34px" viewBox="0 0 24 24"><path d="M4 20 18 6M6 4l14 14M16 4l4 0 0 4M4 16v4h4"/></svg><div>TradeLink<small>Trusted Trades. Local.</small></div></div>
+<nav class="links"><a data-p="home" onclick="go('home')">Home</a><a data-p="browse" onclick="go('browse')">Browse</a><a data-p="about" onclick="go('about')">About</a><a data-p="contact" onclick="go('contact')">Contact</a></nav>
+<div class="act"><div class="auth" id="auth"><button class="btn w" style="padding:7px 14px" onclick="openAuth('login')"><svg class="i"><use href="#user"/></svg>Log in</button><button class="btn" style="padding:7px 14px" onclick="openAuth('signup')">Sign up</button></div>
+<div class="icons" id="icons"><svg class="i"><use href="#search"/></svg><svg class="i" onclick="need('pf')" style="cursor:pointer"><use href="#user"/></svg><svg class="i"><use href="#heart"/></svg></div></div>
+<button class="burger" aria-label="Menu" onclick="document.querySelector('header').classList.toggle('mo')"><svg class="i"><use href="#menu"/></svg></button></div></header>
+
+<main id="home"><section class="hero"><div class="wrap"><h1>Find trusted tradespeople near you</h1>
+<p>Whether it's a quick repair or a big project, connect with skilled tradespeople in your area.</p>
+<div class="row"><button class="btn" onclick="go('browse')">Browse Tradespeople</button><button class="btn w" onclick="go('about')">How It Works</button></div>
+<div class="mq"><div class="card"><label><svg class="i"><use href="#search"/></svg><input placeholder="e.g. plumber, electrician..."></label><label><svg class="i"><use href="#pin"/></svg><input placeholder="Your location"></label><button class="btn" onclick="go('browse')"><svg class="i"><use href="#search"/></svg>Search</button></div></div></div></section>
+<div class="wrap sec"><div class="sh"><h2>Top Rated Tradespeople</h2><a onclick="go('browse')">View all →</a></div><div class="grid4" id="top"></div></div>
+<div class="feat"><div class="wrap"><div><svg class="i"><use href="#shield"/></svg><span><b>Reviewed Listings</b><p>Every tradesperson listing is reviewed before it goes public.</p></span></div><div><svg class="i"><use href="#star"/></svg><span><b>Real Reviews</b><p>See what other customers have to say.</p></span></div><div><svg class="i"><use href="#pin"/></svg><span><b>Local &amp; Reliable</b><p>Find help in your area, when you need it.</p></span></div></div></div></main>
+
+<main id="browse" hidden><section class="bh"><div class="wrap"><h1>Find the right tradesperson</h1><p>Search by trade, location or use the filters below to find exactly what you need.</p>
+<div class="sb"><label><svg class="i"><use href="#search"/></svg><input id="q" placeholder="e.g. plumber, electrician, carpenter..." oninput="draw()"></label><label><svg class="i"><use href="#pin"/></svg><input id="loc" placeholder="Your location" oninput="draw()"></label><button class="btn" onclick="draw()">Search</button></div></div></section>
+<div class="wrap"><div class="bar"><button class="btn g" onclick="fp(1)"><svg class="i"><use href="#filter"/></svg><span id="fc">Filters (0)</span></button><label>Sort by: <select id="so" onchange="draw()"><option>Best Match</option><option>Price: Low to High</option><option>Top Rated</option></select></label></div>
+<div class="res" id="res"></div><div id="list"></div></div></main>
+
+<main id="about" hidden><section class="hero"><div class="wrap"><h1>About TradeLink</h1><p>TradeLink helps people in Papua New Guinea find skilled local tradespeople, and helps tradespeople get found.</p></div></section>
+<div class="wrap sec"><h2 style="margin-bottom:14px">How it works</h2><div style="display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div class="card pad"><b>1. Search</b><p class="m">Pick a trade and your area to see tradespeople near you.</p></div><div class="card pad"><b>2. Compare</b><p class="m">Check prices, photos, availability and reviews.</p></div><div class="card pad"><b>3. Connect</b><p class="m">Message them, ask for a quote or book a service.</p></div></div>
+<h2 style="margin:26px 0 14px">For tradespeople</h2><div class="card pad"><p class="m">Create a free professional profile, list your services and prices, and show your work. Listings go public after approval.</p><button class="btn" style="margin-top:12px" onclick="openAuth('signup')">Create a profile</button> <button class="btn o" style="margin-top:12px" onclick="go('browse')">Browse tradespeople</button></div></div></main>
+<main id="contact" hidden><section class="hero"><div class="wrap"><h1>Contact us</h1><p>Questions, feedback or need help? Send us a message.</p></div></section><div class="wrap sec" style="display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))"><div class="card pad"><label class="fl" style="margin-top:0">Your name<div class="fi"><input id="cn"></div></label><label class="fl">Email<div class="fi"><input id="ce" type="email"></div></label><label class="fl">Message<div class="fi"><textarea id="cm" rows="4" style="flex:1;border:0;outline:0;background:none;padding:11px 0;font:inherit;color:var(--ink);width:100%"></textarea></div></label><div class="er" id="cr"></div><button class="btn" style="margin-top:14px;width:100%" onclick="sendMsg()">Send message</button></div><div class="card pad"><b>Get in touch</b><div class="ir"><svg class="i"><use href="#pin"/></svg><span>Location<small>Port Moresby, Papua New Guinea</small></span></div><p class="m" style="margin-top:14px">Send us a message with the form and we will reply by email.</p></div></div></main>
+<main id="terms" hidden><section class="hero"><div class="wrap"><h1>Terms of Service</h1><p>The rules for using TradeLink.</p></div></section><div class="wrap sec"><div class="card pad"><p class="m">By creating an account or using TradeLink you agree to these terms.</p>
+<h3 style="margin-top:14px">What TradeLink is</h3><p class="m">TradeLink helps customers find and contact tradespeople in Papua New Guinea. TradeLink is not a party to any job, quote or payment between a customer and a tradesperson. We do not guarantee the quality, price or timing of any work.</p>
+<h3 style="margin-top:14px">Your account</h3><p class="m">Give true information and keep your password private. You are responsible for what happens under your account.</p>
+<h3 style="margin-top:14px">Tradespeople</h3><p class="m">Your listing must be honest, including your trade, experience, qualifications, licences and prices. Listings are reviewed before they go public. The Verified badge is added only by TradeLink after checks, and may be removed at any time. We may refuse, change or remove a listing that is misleading or unsafe.</p>
+<h3 style="margin-top:14px">Customers</h3><p class="m">Be respectful and honest. Reviews may only be left after a completed booking and must describe your real experience.</p>
+<h3 style="margin-top:14px">Not allowed</h3><p class="m">Fake profiles, fake reviews, harassment, illegal content, spam, or attempts to break or misuse the service.</p>
+<h3 style="margin-top:14px">Our responsibility</h3><p class="m">We work to keep TradeLink available and safe, but we cannot promise it will always be error free. To the extent the law allows, TradeLink is not responsible for losses from jobs arranged through the service.</p>
+<h3 style="margin-top:14px">Changes and contact</h3><p class="m">We may update these terms. Questions? Use the Contact page.</p></div></div></main>
+<main id="privacy" hidden><section class="hero"><div class="wrap"><h1>Privacy Policy</h1><p>What we collect and how we use it.</p></div></section><div class="wrap sec"><div class="card pad">
+<h3>What we collect</h3><p class="m">Your name, email address and password (stored securely by our login provider); the profile details you add, such as location, biography, photos, services and prices; your messages, bookings and reviews; anything you send through the Contact form; and, for tradespeople, the certificates, licences or ID photos you upload. Those files are stored privately, checked automatically by an AI service to see whether they are readable documents, and seen only by you and TradeLink staff.</p>
+<h3 style="margin-top:14px">How we use it</h3><p class="m">To run your account, show listings in Search, let customers and tradespeople contact each other, review listings, keep TradeLink safe, and answer your questions. We do not sell your personal information.</p>
+<h3 style="margin-top:14px">Who can see what</h3><p class="m">A tradesperson's approved public listing is visible to everyone. Your email address is never shown on a listing. A customer profile is private by default, and you can choose what tradespeople see. Messages are visible only to the two people in the chat.</p>
+<h3 style="margin-top:14px">Where it is stored</h3><p class="m">Your data is stored with our database provider, Supabase. Your browser keeps a small login session so you stay signed in.</p>
+<h3 style="margin-top:14px">Your choices</h3><p class="m">You can edit your profile at any time, switch a profile to private, or ask us to delete your account and data through the Contact page.</p></div></div></main>
+<main id="profile" hidden><div class="wrap" id="pf"></div><div style="height:30px"></div></main>
+
+<div class="ov" id="ov" onclick="if(event.target==this)fp(0)"><aside class="pnl"><h3>Filters<button onclick="fp(0)" aria-label="Close"><svg class="i"><use href="#x"/></svg></button></h3>
+<h4>Trade Type</h4><div id="trades"></div><h4>Location</h4><select style="width:100%"><option>Any location</option><option>Port Moresby</option></select>
+<h4>Starting price (US$)</h4><div id="prices"></div>
+<div class="ft"><button class="btn g" onclick="rs()">Reset</button><button class="btn" onclick="fp(0);draw()">Show Results</button></div></aside></div>
+
+<main id="dash" hidden></main><div class="au" id="au" hidden></div>
+<footer class="ftr"><div class="wrap">© 2026 TradeLink • Port Moresby, Papua New Guinea<span><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a><a onclick="go('terms')">Terms</a><a onclick="go('privacy')">Privacy</a></span></div></footer>
+<nav class="tabbar"><a class="on" onclick="go('home')"><svg class="i"><use href="#home"/></svg>Home</a><a onclick="go('browse')"><svg class="i"><use href="#search"/></svg>Browse</a><a onclick="need('msgs')"><svg class="i"><use href="#msg"/></svg>Messages</a><a onclick="need('pf')"><svg class="i"><use href="#user"/></svg>Account</a></nav>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="heart" viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-3 4.5 4.5 0 0 1 8 3c0 6-8 11-8 11z"/></symbol>
+<symbol id="pin" viewBox="0 0 24 24"><path d="M12 22s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+<symbol id="star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.3l1-6.2L3 9.7l6.2-.9z" fill="currentColor"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+<symbol id="filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+<symbol id="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="home" viewBox="0 0 24 24"><path d="m4 11 8-7 8 7v9H4z"/></symbol>
+<symbol id="msg" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+<symbol id="phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V4h6v3"/></symbol>
+<symbol id="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+</defs></svg>
+<script>
+const P=[];
+const T=["All Trades","Plumber","Electrician","Carpenter","Mechanic","Builder","Painter","Gardener","Cleaner","Welder","Roofer","Tiler","Plasterer","Bricklayer","Air-conditioning technician","Solar installer","Locksmith","Handyman","Other"];
+const PR=[["Under US$10",0,9.99],["US$10 – US$25",10,25],["US$26 – US$50",26,50],["US$51+",50.01,99999]];
+const I=n=>`<svg class="i"><use href="#${n}"/></svg>`;
+const av=(p,cls="")=>p.photo?`<span class="av ${cls}"><img alt="" src="${String(p.photo).replace(/[^A-Za-z0-9._~:\/?#@!$&()*+,;=%-]/g,"")}" style="width:100%;height:100%;object-fit:cover"></span>`:`<span class="av ${cls}" style="background:linear-gradient(160deg,#5a6f8f,#2c3e5c)"><svg viewBox="0 0 100 80" preserveAspectRatio="xMidYMax slice"><path d="M12 80c2-20 18-26 38-26s36 6 38 26z" fill="${p.c}"/><ellipse cx="50" cy="34" rx="15" ry="18" fill="${p.s}"/><path d="M33 30c0-14 8-20 17-20s17 6 17 20c-5-5-11-7-17-7s-12 2-17 7z" fill="${p.id==0?"#f2b01e":"#1b2233"}"/></svg></span>`;
+const fav=new Set();
+const hb=p=>`<button class="heart ${fav.has(p.id)?"on":""}" aria-label="Save" onclick="event.stopPropagation();fav.has(${p.id})?fav.delete(${p.id}):fav.add(${p.id});draw();top_()">${I("heart")}</button>`;
+function top_(){document.getElementById("top").innerHTML=[0,1,2,3].filter(i=>P[i]).map(i=>{const p=P[i];return `<div class="card tp" onclick="show(${i})">${av(p)}<div><b>${esc(p.n)}</b><div class="rt">${p.r=="New"?"New":"★ "+p.r} <span>(${p.j} reviews)</span></div><div class="m">${p.t}</div><div class="m">${I("pin").replace('class="i"','class="i" style="width:11px;height:11px"')} ${p.l}</div><span class="tag">US$${p.p}/hr</span><br>${p.tg.map(x=>`<span class="tag">${x}</span>`).join("")}</div>${hb(p)}</div>`}).join("")}
+const sel={t:"All Trades",pr:new Set()};
+function fp(o){document.getElementById("ov").classList.toggle("on",!!o)}
+function fl(){document.getElementById("trades").innerHTML=T.map(t=>`<label class="opt">${I(t=="All Trades"?"filter":"brief")}${t}<input type="radio" name="t" ${sel.t==t?"checked":""} onchange="sel.t='${t}';draw()"></label>`).join("");
+document.getElementById("prices").innerHTML=PR.map((x,i)=>`<label class="opt"><input type="checkbox" ${sel.pr.has(i)?"checked":""} onchange="this.checked?sel.pr.add(${i}):sel.pr.delete(${i});draw()">${x[0]}</label>`).join("")}
+function rs(){sel.t="All Trades";sel.pr.clear();fl();draw()}
+function draw(){const q=document.getElementById("q").value.toLowerCase(),so=document.getElementById("so").value;
+let a=P.filter(p=>(sel.t=="All Trades"||p.t==sel.t||(sel.t=="Other"&&!T.includes(p.t)))&&(!sel.pr.size||[...sel.pr].some(i=>p.p>=PR[i][1]&&p.p<=PR[i][2]))&&((p.n+p.t+p.l).toLowerCase().includes(q)||!!(window.AI_HIT&&p.tt&&AI_HIT[p.tt.lid]))&&(p.l+" "+(p.tt?p.tt.city+" "+p.tt.areas:"")).toLowerCase().includes(($("loc")?$("loc").value:"").toLowerCase().trim()));
+if(so[0]=="B"&&window.AI_HIT&&Object.keys(AI_HIT).length)a.sort((x,y)=>(AI_HIT[y.tt&&y.tt.lid]||0)-(AI_HIT[x.tt&&x.tt.lid]||0));if(so[0]=="P")a.sort((x,y)=>x.p-y.p);if(so[0]=="T")a.sort((x,y)=>y.r-x.r);
+const n=(sel.t!="All Trades")+sel.pr.size;document.getElementById("fc").textContent=`Filters (${n})`;
+document.getElementById("res").textContent=`Showing ${a.length} result${a.length==1?"":"s"}`;
+document.getElementById("list").innerHTML=a.length?a.map(p=>`<div class="card row2">${av(p)}<div class="mid"><b>${esc(p.n)}</b><div class="rt">${p.r=="New"?"New":"★ "+p.r} <span>(${p.j} reviews)</span></div><div>${esc(p.t)}</div><div class="m" style="color:var(--mut);font-size:12px">${I("pin").replace('class="i"','class="i" style="width:11px;height:11px"')} ${esc(p.l)}${p.tt&&p.tt.city?", "+esc(p.tt.city):""}</div>${p.real?(p.verified?'<div class="bd"><span class="v">'+I("check")+'Verified</span></div>':""):p.mine?'<div class="bd"><span>Pending review. Demo listing</span></div>':`<div class="bd"><span class="v">${I("check")}Verified</span><span>${I("search")}Background checked</span><span>${I("shield")}Insurance</span></div>`}</div><div class="rg"><div class="price">${p.p?"From US$"+p.p:"Quote"}</div><div><button class="btn" onclick="show(${p.id})">View Profile</button>${hb(p).replace('heart','heart p')}</div></div></div>`).join(""):`<div class="card" style="padding:30px;text-align:center">${P.length?"No tradespeople match. Try clearing a filter.":"No tradespeople have joined yet. Create a profile to be the first."}</div>`}
+const tab={a:0};
+function show(i,t=0){const p=P[i];history.replaceState(0,"","#profile");view("profile");if(p.mine){$("pf").innerHTML='<a class="vf" style="display:block;padding:14px 0" onclick="go(\'browse\')">← Back to results</a>'+pub(PF.t);return}
+const sv=i==1?[["General Plumbing","Repairs, maintenance, installations",140],["Blocked Drains","Cleaning and unblocking",160],["Hot Water Systems","Installation &amp; repairs",180],["Bathroom Renovations","Full service, tiling &amp; fittings",250]]:[[p.t+" Services","Repairs, maintenance, installations",p.p],["Call-out &amp; Inspection","Assessment and quote",p.p+20],["Large Projects","Full service installs",p.p+90]];
+const body=t==0?`<div class="pg"><div class="card"><h3>About me</h3><p style="font-size:12px;color:var(--mut)">I'm a fully qualified ${p.t.toLowerCase()} with 8+ years of experience in residential and commercial work. I take pride in providing reliable, high quality work and always aim to get the job done right the first time.</p>
+<div class="ir">${I("brief")}<span>Experience<small>8 years</small></span></div><div class="ir">${I("pin")}<span>Service area<small>Port Moresby &amp; surrounding areas</small></span></div><div class="ir">${I("clock")}<span>Availability<small>Mon – Sat, 8:00 AM – 6:00 PM</small></span></div><div class="ir">${I("globe")}<span>Languages<small>English, Tok Pisin</small></span></div>
+<div class="cta"><button class="btn" onclick="need('msgs')">${I("msg")}Message</button><button class="btn o">${I("phone")}Call</button></div></div>
+<div class="card"><h3>Services &amp; Prices</h3>${sv.map(s=>`<div class="sv"><span>${s[0]}<small>${s[1]}</small></span><b>US$${s[2]}/hr</b></div>`).join("")}<h3 style="margin-top:18px">Skills</h3>${["Pipe Fitting","Leak Detection","Drainage","Water Heaters","Residential","Commercial"].map(x=>`<span class="tag">${x}</span>`).join("")}</div>
+<div class="card"><h3>Location</h3><div class="map">${I("pin")}</div><div style="font-size:12px"><b>${p.l}, Port Moresby</b><div class="m" style="color:var(--mut)">10 km away</div></div><h3 style="margin-top:16px">Work Gallery</h3><div class="gal">${[0,1,2,3,4,1].map(k=>av(P[k])).join("")}</div><p class="vf" style="margin-top:8px">View more photos</p></div></div>`
+:`<div class="card" style="padding:30px;color:var(--mut)">${["","Reviews from ${p.j} completed jobs will appear here.","Photos will appear here.","More about ${p.n}."][t].replace("${p.j}",p.j).replace("${p.n}",p.n)}</div>`;
+document.getElementById("pf").innerHTML=`<div class="ph">${av(p)}<div class="info"><h1>${p.n}</h1><div class="rt">★ ${p.r} <span>(${p.j} jobs)</span> <span class="vf">&nbsp;Verified ${I("check").replace('class="i"','class="i" style="width:13px;height:13px"')}</span></div><div>${esc(p.t)}</div><div class="m" style="color:var(--mut);font-size:12px">${I("pin").replace('class="i"','class="i" style="width:11px;height:11px"')} ${esc(p.l)}${p.tt&&p.tt.city?", "+esc(p.tt.city):""}</div><div class="bd"><span>${I("search")}Background checked</span><span>${I("shield")}Insurance</span></div></div>
+<div class="rgt"><div class="price" style="font-size:18px">US$${p.p}<sup>/hr</sup></div><button class="btn" onclick="need('msgs')">Message</button>${hb(p).replace('heart','heart p')}</div></div>
+<div class="tabs">${["Overview",`Reviews (${p.j})`,"Photos (12)","About"].map((x,k)=>`<a class="${k==t?"on":""}" onclick="show(${i},${k})">${x}</a>`).join("")}</div>${body}`}
+function view(v){document.body.classList.toggle("dsh",v=="dash");["home","browse","profile","dash","about","contact","terms","privacy"].forEach(x=>document.getElementById(x).hidden=x!=v);
+document.querySelectorAll(".links a").forEach(a=>a.classList.toggle("on",a.dataset.p==v||(v=="profile"&&a.dataset.p=="browse")));
+document.getElementById("auth").style.display=v=="home"?"":"none";document.body.classList.toggle("nh",v!="home");
+document.querySelectorAll(".tabbar a").forEach((a,k)=>a.classList.toggle("on",k==(v=="home"?0:v=="browse"?1:-1)));scrollTo(0,0)}
+function go(v){document.querySelector("header").classList.remove("mo");history.replaceState(0,"","#"+v);view(v)}
+function sendMsg(){const n=$("cn").value.trim(),e=$("ce").value.trim(),m=$("cm").value.trim(),r=$("cr");r.style.color="";if(!n||!/^\S+@\S+$/.test(e)||m.length<5){r.textContent="Enter your name, a valid email and a message.";return}r.style.color="var(--grn)";r.textContent="Thanks. Your message was noted. ";$("cn").value=$("ce").value=$("cm").value=""}
+const $=i=>document.getElementById(i),LG='<svg class="i" style="width:34px;height:34px" viewBox="0 0 24 24"><path d="M4 20 18 6M6 4l14 14M16 4l4 0 0 4M4 16v4h4"/></svg>';
+let U=null,role="c",pane="dash",ci=0,AN="dash";
+const KO={id:9,c:"#7a3b6e",s:"#d9a47e"},A=i=>i<5?P[i]:KO,BELL='<svg class="i" viewBox="0 0 24 24"><path d="M6 17v-6a6 6 0 0 1 12 0v6l2 2H4z"/></svg>';
+const TH={c:[],t:[]};
+function openAuth(m,next){AN=next||"dash";const s=m=="signup";$("au").hidden=false;
+$("au").innerHTML=`<div class="aw"><div class="al"><div class="brand">${LG}<div style="font-size:26px">TradeLink<small style="font-size:12px">Skilled. Verified. Local.</small></div></div><h1>Find the right tradesperson, for every job.</h1><p>Connect with trusted professionals in your area. Get quality work done, with confidence.</p>${[["shield","Reviewed Listings","Every listing is checked before it goes public"],["msg","Secure Messaging","Chat safely through the platform"],["pin","Local &amp; Reliable","Support your local community"]].map(x=>`<div class="af">${I(x[0])}<span><b>${x[1]}</b><small>${x[2]}</small></span></div>`).join("")}</div>
+<div class="ac"><button class="x" aria-label="Close" onclick="$('au').hidden=true">${I("x")}</button><h2>${s?"Create an account":"Welcome back"}</h2><div class="m">${s?"Join TradeLink and get started today.":"Log in to your account to continue."}</div>
+${s?`<div class="rl"><button class="${role=="c"?"on":""}" onclick="role='c';sr()">${I("user")}<span><b>Customer</b>Find and hire trusted tradespeople. Profile stays private.</span></button><button class="${role=="t"?"on":""}" onclick="role='t';sr()">${I("brief")}<span><b>Tradesperson</b>Create a listing and offer services. Public after approval.</span></button></div><label class="fl">Full name<div class="fi">${I("user")}<input id="fn" placeholder="Enter your full name"></div></label>`:""}
+<label class="fl">Email address<div class="fi">${I("msg")}<input id="em" type="email" placeholder="you@example.com"></div></label>
+<label class="fl">Password<div class="fi">${I("shield")}<input id="pw" type="password" placeholder="${s?"Create a password":"Enter your password"}"><button onclick="$('pw').type=$('pw').type=='password'?'text':'password'" aria-label="Show password">${I("search")}</button></div></label>${s?`<label class="fl">Confirm password<div class="fi">${I("shield")}<input id="pc" type="password" placeholder="Re-enter your password"></div></label>`:""}
+${s?`<label style="display:flex;gap:8px;margin-top:12px;font-size:12px"><input type="checkbox" id="tc" style="accent-color:var(--blue)">I agree to the <a class="vf" onclick="$('au').hidden=true;go('terms')">Terms of Service</a> and <a class="vf" onclick="$('au').hidden=true;go('privacy')">Privacy Policy</a></label>`:`<div style="display:flex;justify-content:space-between;margin-top:10px;font-size:12px"><label style="display:flex;gap:6px"><input type="checkbox" style="accent-color:var(--blue)">Remember me</label><a class="vf" onclick="forgotPw()">Forgot password?</a></div>`}
+<div class="er" id="er"></div><button class="btn" onclick="doAuth(${s})">${s?"Create Account":"Log in"}</button>
+<div class="sw">${s?"Already have an account?":"Don't have an account?"} <a onclick="openAuth('${s?"login":"signup"}','${AN}')">${s?"Log in":"Sign up"}</a></div></div></div>`}
+function sr(){document.querySelectorAll(".rl button").forEach((b,k)=>b.classList.toggle("on",k==(role=="c"?0:1)))}
+function doAuth(s){const e=$("em").value.trim(),p=$("pw").value,n=s?$("fn").value.trim():"";
+const m=!e||!p||(s&&!n)?"Fill in all fields to continue.":p.length<6?"Use a password with at least 6 characters.":s&&$("pc").value!=p?"Passwords do not match.":s&&!$("tc").checked?"Agree to the Terms of Service to continue.":"";
+if(m){$("er").textContent=m;return}
+U={name:n||(role=="t"?"Lani S. Tau":"Kora Lopoi")};ci=0;$("au").hidden=true;$("auth").innerHTML='<button class="btn" style="padding:7px 14px" onclick="need(\'dash\')">My Dashboard</button>';openDash(AN)}
+function need(p){U?openDash(p):openAuth("login",p)}
+function openDash(p){if(typeof PF!="undefined"&&PF.role)role=PF.role;pane=p;view("dash");rd()}
+function pn(p){pane=p;rd()}
+function out(){U=null;role="c";$("auth").innerHTML='<button class="btn w" style="padding:7px 14px" onclick="openAuth(\'login\')">Log in</button><button class="btn" style="padding:7px 14px" onclick="openAuth(\'signup\')">Sign up</button>';go("home")}
+function rd(){const c=role=="c",nav=c?[["dash","Dashboard","home"],["find","Find Tradespeople","search"],["msgs","Messages","msg",typeof UNR!="undefined"?UNR:2],["bk","My Bookings","clock"],["sv","Saved Tradespeople","heart"],["rv","My Reviews","star"],["pf","Profile","user"],["hp","Help and Support","msg"],["sc","Security","shield"]]:[["dash","Dashboard","home"],["ms","Services and Pricing","brief"],["av","Availability","clock"],["bk","Bookings","clock"],["msgs","Messages","msg",typeof UNR!="undefined"?UNR:3],["rv","Reviews","star"],["wg","Work Gallery","star"],["pm","Premium","star"],["pf","Profile","user"],["sc","Security","shield"]];
+const cur=nav.find(x=>x[0]==pane)||nav[0];
+$("dash").innerHTML=`<div class="dh"><aside class="sd"><div class="brand" onclick="go('home')">${LG}<div>TradeLink<small>Skilled. Verified. Local.</small></div></div>${nav.map(x=>`<a class="${x[0]==cur[0]?"on":""} ${(c?["dash","find","msgs","pf"]:["dash","bk","msgs","pf"]).includes(x[0])?"k":""}" onclick="${x[0]=="find"?"go('browse')":"pn('"+x[0]+"')"}">${I(x[2])}${x[1]}${x[3]?`<span class="bg">${x[3]}</span>`:""}</a>`).join("")}<a class="lo" onclick="out()">${I("x")}Log Out</a></aside>
+<section class="dm"><div class="tb"><label class="sbx">${I("search")}<input placeholder="Search for tradespeople or services..."></label><span style="color:var(--blue)">${BELL}</span><span onclick="pn('pf')" style="cursor:pointer">${av(c?{photo:(PF.c&&PF.c.photo)||"",c:"#7a3b6e",s:"#d9a47e",id:9}:{photo:(PF.t&&PF.t.photo)||"",c:"#1b2f57",s:"#b87d52",id:5})}</span></div>
+${pane=="msgs"?msgs():pane=="dash"?dbd():pane=="pf"?prof():typeof PANES!="undefined"&&PANES[pane]?PANES[pane]():`<div class="card pad"><h2>${cur[1]}</h2><p class="m" style="margin-top:6px">Nothing here yet. This page fills up as you use TradeLink.</p>${pane=="as"?`<button class="btn o" style="margin-top:14px" onclick="out()">Log Out</button>`:""}</div>`}</section></div>`}
+function cdash(){return `<div class="g2"><div class="card pad"><div class="pr">${av(KO,"big")}<div><b style="font-size:17px">${U.name}</b> <a class="vf">Edit Profile</a><div class="m">kora@email.com</div><div class="m">${I("pin").replace('class="i"','class="i" style="width:11px;height:11px"')} Port Moresby, PNG</div></div></div><p class="m">Just a student who loves to get things done. Looking for reliable tradespeople for my home and future projects.</p></div><div class="card pad"><b>Account Status</b><br><span class="tag" style="color:var(--blue)">Customer</span><div class="m" style="margin-top:10px">Member since<br><b style="color:var(--ink)">Aug 2025</b></div></div></div>
+<div class="st">${[["Saved Tradespeople",5,"star"],["My Bookings",3,"clock"],["Messages",2,"msg"],["Reviews",4,"star"]].map(x=>`<div class="card pad">${I(x[2])}<span><small>${x[0]}</small><b>${x[1]}</b></span></div>`).join("")}</div>
+<div class="card pad" style="margin-bottom:14px"><div class="sh" style="margin:0"><b>Upcoming Bookings</b><a>View all</a></div>${[["Plumber – Fix leaking tap","Tue, 22 Apr 2025 • 10:00 AM","pin"],["Electrician – Install power point","Fri, 25 Apr 2025 • 2:00 PM","filter"]].map(x=>`<div class="bk">${I(x[2])}<span><b>${x[0]}</b><div class="m">${x[1]}</div></span><i class="cf" style="font-style:normal">Confirmed</i><a class="vf">View</a></div>`).join("")}</div>
+<div class="g2" style="grid-template-columns:1fr 1fr"><div class="card pad"><b>Quick Actions</b><a class="qa" onclick="go('browse')">Browse Tradespeople</a><a class="qa" onclick="pn('msgs')">Send a Message</a></div><div class="card pad"><b>Recent Messages</b>${TH.c.slice(0,2).map(x=>`<div class="bk" style="cursor:pointer" onclick="pn('msgs')">${av(A(x[0])).replace('class="av "','class="av" style="width:30px;height:30px;border-radius:50%;flex:none"')}<span><b>${x[1]} (${x[2]})</b><div class="m">${x[5][x[5].length-1][1]}</div></span><small class="m">${x[3]}</small></div>`).join("")}</div></div>`}
+function tdash(){const p=P[2];return `<div class="card"><div class="cv"></div><div class="tph">${av(p)}<div><h2>${U.name} <span class="tag" style="color:#b7791f">Pending Review</span></h2><div class="rt">★ 4.8 <span>(34 reviews)</span></div><div class="m">Carpenter • 8+ years experience</div><div class="m">${I("pin").replace('class="i"','class="i" style="width:11px;height:11px"')} Gordons, Port Moresby, PNG</div></div><div style="display:grid;gap:8px"><button class="btn">Edit Profile</button><button class="btn o" onclick="show(2)">View Public Listing</button></div></div>
+<div class="tabs" style="margin:0 18px">${["Overview","Services &amp; Prices","Gallery","Reviews","Availability"].map((x,k)=>`<a class="${k?"":"on"}">${x}</a>`).join("")}</div><div class="pg" style="grid-template-columns:1.2fr 1fr;padding:14px"><div><h3>About Me</h3><p class="m">I'm a skilled and reliable carpenter with over 8 years of experience in residential and commercial projects. I take pride in delivering high-quality work, on time and within budget. Whether it's a small repair or a full renovation, I'm here to help.</p>${[["brief","Experience","8+ years"],["shield","Qualifications","Trade Certificate (Carpentry)"],["pin","Service Area","Hohola, Port Moresby &amp; surrounding areas"],["globe","Languages","English, Tok Pisin"]].map(x=>`<div class="ir">${I(x[0])}<span>${x[1]}<small>${x[2]}</small></span></div>`).join("")}</div>
+<div><div class="card"><h3>Services &amp; Prices</h3>${[["General Carpentry","US$100 – US$140"],["Furniture / Cabinet Making","US$120 – US$180"],["Decks &amp; Pergolas","US$150 – US$200"],["Wooden Repairs","US$100 – US$140"]].map(x=>`<div class="sv"><span>${x[0]}</span><b>${x[1]}/hr</b></div>`).join("")}</div><div class="card" style="margin-top:14px"><h3>Availability</h3><div class="dy">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d,k)=>`<span>${d}<i class="${[1,0,0,0,0,1,0][k]?"f":""}"></i></span>`).join("")}</div><div class="m">8:00 AM – 5:00 PM</div><div class="cta"><button class="btn" onclick="pn('msgs')">Message</button><button class="btn o">Book Service</button></div></div></div></div>
+<div class="pg" style="grid-template-columns:1.2fr 1fr;padding:0 14px 14px"><div class="card"><div class="sh" style="margin:0 0 10px"><h3 style="margin:0">Gallery</h3><a>View more photos</a></div><div class="gl">${["#8a5a2b","#6b4a35","#a0703a","#4f6b4a","#7a5a3e"].map(c=>`<i style="background:linear-gradient(150deg,${c},#2a2a30)"></i>`).join("")}</div></div><div class="card"><div class="sh" style="margin:0 0 10px"><h3 style="margin:0">Reviews</h3><a>View all</a></div><span class="rt">★★★★★ 4.8 <span>(34 reviews)</span></span></div></div></div>`}
+function dbd(){const c=role=="c",L=TH[role].slice(0,2);
+const S=c?[["Saved Tradespeople",5,"star"],["My Bookings",3,"clock"],["Messages",2,"msg"],["Reviews",4,"star"]]:[["Profile Views",128,"search"],["Enquiries",4,"filter"],["Upcoming Jobs",3,"clock"],["Unread Messages",3,"msg"]];
+const B=c?[["Plumber – Fix leaking tap","Tue, 22 Apr 2025 • 10:00 AM","pin"],["Electrician – Install power point","Fri, 25 Apr 2025 • 2:00 PM","filter"]]:[["Shelves – Kora Lopoi","Tue, 22 Apr 2025 • 10:00 AM","pin"],["Deck repair – Mere Kila","Fri, 25 Apr 2025 • 2:00 PM","filter"]];
+return `${c?`<h2>Welcome back, ${U.name.split(" ")[0]}</h2><p class="m" style="margin:4px 0 14px">Your account is private. Only you can see it.</p>`:`<h2>Welcome, ${U.name}</h2><div class="card pad" style="margin:12px 0 14px;border-left:4px solid var(--gold)"><b>Listing status: <span class="tag" style="color:#b7791f;margin:0">Pending Review</span></b><div class="m">Your listing isn't public yet. Customers can find it only after approval.</div><div class="m" style="margin-top:10px">Profile completion: 70%</div><div style="height:8px;background:var(--chip);border-radius:9px;margin-top:4px"><div style="width:70%;height:100%;background:var(--blue);border-radius:9px"></div></div><div class="cta"><button class="btn" onclick="pn('pf')">Edit Profile</button><button class="btn o" onclick="show(2)">View Public Listing</button></div></div>`}<div class="st">${S.map(x=>`<div class="card pad">${I(x[2])}<span><small>${x[0]}</small><b>${x[1]}</b></span></div>`).join("")}</div>
+<div class="card pad" style="margin-bottom:14px"><div class="sh" style="margin:0"><b>${c?"Upcoming Bookings":"Upcoming Jobs"}</b><a>View all</a></div>${B.map(x=>`<div class="bk">${I(x[2])}<span><b>${x[0]}</b><div class="m">${x[1]}</div></span><i class="cf" style="font-style:normal">Confirmed</i><a class="vf">View</a></div>`).join("")}</div>
+<div class="g2" style="grid-template-columns:1fr 1fr"><div class="card pad"><b>Quick Actions</b>${c?`<a class="qa" onclick="go('browse')">Browse Tradespeople</a>`:`<a class="qa" onclick="show(2)">View Public Listing</a>`}<a class="qa" onclick="pn('msgs')">Send a Message</a></div><div class="card pad"><b>Recent Messages</b>${L.map(x=>`<div class="bk" style="cursor:pointer" onclick="pn('msgs')">${av(A(x[0])).replace('class="av "','class="av" style="width:30px;height:30px;border-radius:50%;flex:none"')}<span><b>${x[1]} (${x[2]})</b><div class="m">${x[5][x[5].length-1][1]}</div></span><small class="m">${x[3]}</small></div>`).join("")}</div></div>`}
+function prof(){return (role=="c"?cdash().split('<div class="st">')[0]:tdash())+acct()}
+function msgs(){const L=TH[role],T=L[ci];if(!T)return `<h2>Messages</h2><div class="card pad" style="margin-top:14px">No conversations yet.</div>`;
+return `<h2>Messages</h2><div class="m">Chat safely with ${role=="c"?"tradespeople":"customers"} through TradeLink.</div><div class="ms card"><div class="ml"><label class="sbx">${I("search")}<input placeholder="Search" oninput="document.querySelectorAll('.mi').forEach(e=>e.hidden=!e.textContent.toLowerCase().includes(this.value.toLowerCase()))"></label>${L.map((x,k)=>`<div class="mi ${k==ci?"on":""}" onclick="ci=${k};pn('msgs')">${av(A(x[0]))}<div><b>${x[1]}</b><small>${x[2]}</small></div><span>${x[3]}${x[4]?`<i class="ub">${x[4]}</i>`:""}</span></div>`).join("")}</div>
+<div class="mc"><div class="mh">${av(A(T[0]))}<div><b>${T[1]}</b><small>Active</small></div><a class="del" onclick="L_().splice(ci,1);ci=0;pn('msgs')">Delete conversation</a></div><div class="mb" id="mb">${T[5].map(m=>`<div class="bb ${m[0]}">${m[1]}<small>${m[2]}</small></div>`).join("")}</div><div class="mf"><input id="mi" placeholder="Type a message" onkeydown="if(event.key=='Enter')snd()"><button class="btn" onclick="snd()">Send Message ${I("phone").replace(/<use.*\/>/,'<path d="M5 19 19 5M9 5h10v10"/>')}</button></div></div></div>`}
+const L_=()=>TH[role];
+function snd(){const v=$("mi").value.trim();if(!v)return;const T=L_()[ci];T[5].push(["me",v,"Now"]);T[4]=0;pn("msgs");$("mi").focus();const b=$("mb");b.scrollTop=b.scrollHeight}
+top_();fl();draw();view("home");
+</script>
+<!-- Profile update plugin: delete this line to get the version without role-based profile creation -->
+<script>
+/* TradeLink - profile update (role-based profile creation).
+   Load AFTER the main script with a script tag whose src is profile-update.js
+   Overrides prof() and adds: role selection, customer profile, tradesperson wizard,
+   public listing and management page.
+   PROTOTYPE ONLY: data lives in this browser's localStorage, never on a server. */
+(function(){var st=document.createElement("style");st.textContent=`.fi textarea,.fi select{flex:1;border:0;outline:0;background:none;padding:11px 0;font:inherit;color:var(--ink);min-width:0;width:100%}.fi select option{color:#000}.rc{cursor:pointer;padding:22px;text-align:center}.rc.on{border-color:var(--blue);box-shadow:0 0 0 2px #1262ff44}.rc svg{width:40px;height:40px;color:var(--blue)}.rc h3{margin:10px 0 6px}
+`;document.head.appendChild(st)})();
+const SK="tl_profile_proto";/* PROTOTYPE ONLY: browser localStorage, never a server. Cleared by Reset. */
+let PF={};try{PF=JSON.parse(localStorage.getItem(SK))||{}}catch(e){}
+const sv_=()=>{try{localStorage.setItem(SK,JSON.stringify(PF))}catch(e){}},esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),TR=["Plumber","Electrician","Carpenter","Mechanic","Builder","Painter","Gardener","Cleaner","Welder","Roofer","Tiler","Plasterer","Bricklayer","Air-conditioning technician","Solar installer","Locksmith","Handyman","Other"],DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],PM={hr:"Hourly rate",fx:"Fixed price",st:"Starting price",qt:"Quote required"};
+function ens(){PF.c=PF.c||{notif:{m:1,b:1}};PF.t=PF.t||{days:["Mon","Tue","Wed","Thu","Fri"],open:"08:00",close:"17:00",svc:[{m:"hr"}],extra:[],gal:[],avail:"Available",contact:"Message",msgs:1,bk:1};if(U&&!PF.c.name)PF.c.name=U.name;if(U&&!PF.t.name)PF.t.name=U.name}
+function setF(g,k,v){PF[g][k]=v;sv_()}
+function up(el,g,k,m){[...el.files].forEach(f=>{const r=new FileReader;r.onload=()=>{m?PF[g][k].push(r.result):PF[g][k]=r.result;sv_();pn("pf")};r.readAsDataURL(f)})}
+const fld=(g,l,k,o={})=>{const v=esc(PF[g][k]);return `<label class="fl">${l}${o.r?" *":""}<div class="fi">${o.ta?`<textarea rows="${o.ta}" oninput="setF('${g}','${k}',this.value)">${v}</textarea>`:`<input ${o.ty?`type="${o.ty}"`:""} value="${v}" oninput="setF('${g}','${k}',this.value)">`}</div></label>`},
+slc=(g,l,k,O)=>`<label class="fl">${l}<div class="fi"><select onchange="setF('${g}','${k}',this.value);${k=="trade"?"pn('pf')":""}">${k=="trade"?'<option value="">Select…</option>':""}${O.map(o=>`<option ${PF[g][k]==o?"selected":""}>${o}</option>`).join("")}</select></div></label>`,
+upl=(g,l,k,m)=>`<label class="fl">${l}<div class="fi"><input type="file" accept="image/*" ${m?"multiple":""} onchange="up(this,'${g}','${k}',${m?1:0})"></div></label>`,
+thumb=(u,rm)=>`<span style="position:relative;display:inline-block;margin:6px 6px 0 0"><img alt="" src="${String(u).replace(/[^A-Za-z0-9._~:\/?#@!$&()*+,;=%-]/g,"")}" style="width:72px;height:72px;object-fit:cover;border-radius:7px">${rm?`<button onclick="${rm}" style="position:absolute;top:-6px;right:-6px;background:#e5384f;color:#fff;border-radius:50%;width:20px;height:20px" aria-label="Remove">×</button>`:""}</span>`,
+sf=(k,f,l,ty)=>`<label class="fl">${l}<div class="fi"><input ${ty?`type="${ty}"`:""} value="${esc(PF.t.svc[k][f])}" oninput="PF.t.svc[${k}].${f}=this.value;sv_()"></div></label>`,
+chk=(a,x,fn)=>`<label class="tag" style="cursor:pointer"><input type="checkbox" ${a.includes(x)?"checked":""} onchange="${fn}('${x}')"> ${x}</label>`;
+function tg(x,a=PF.t.extra){const i=a.indexOf(x);i<0?a.push(x):a.splice(i,1);sv_()}
+function td(x){tg(x,PF.t.days)}
+function busy(f){const d=document.querySelector(".dm");if(d)d.innerHTML='<div class="card pad" style="text-align:center;padding:48px"><b>Saving…</b><div class="m">Please wait…</div></div>';setTimeout(f,700)}
+function prof(){ens();if(!PF.role)return rsel();if(!PF.done)return PF.role=="c"?cform():twiz();return PF.role=="c"?cpage():tman()}
+function rsel(){const O=[["c","user","I'm looking for a tradesperson","Find skilled professionals, compare prices, message tradespeople, and arrange services.","Continue as Customer"],["t","brief","I'm a tradesperson","Create your professional profile, showcase your work, list your services, and connect with customers.","Continue as Tradesperson"]];
+return `<h2>How would you like to use TradeLink?</h2><p class="m">Choose how you will use TradeLink.</p><div style="display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:16px">${O.map(o=>`<div class="card rc ${PF.pick==o[0]?"on":""}" onclick="PF.pick='${o[0]}';pn('pf')">${I(o[1])}<h3>${o[2]}</h3><p class="m">${o[3]}</p><button class="btn" style="margin-top:14px;width:100%" onclick="event.stopPropagation();cont('${o[0]}')">${o[4]}</button></div>`).join("")}</div>`}
+function cont(r){PF.role=r;role=r;PF.done=false;PF.step=0;sv_();busy(()=>pn("pf"))}
+function cform(){const c=PF.c;return `<h2>${c.saved?"Edit your profile":"Create your profile"}</h2><p class="m">Your personal account. Customers do not have a public listing.</p><div class="card pad" style="margin-top:14px">${upl("c","Profile picture","photo")}${c.photo?thumb(c.photo):""}${fld("c","Full name","name",{r:1})}${fld("c","Display name (optional)","disp")}${fld("c","Email address","email",{r:1,ty:"email"})}${fld("c","Phone number (optional)","phone")}${fld("c","General location (city or suburb)","loc",{r:1})}${fld("c","Short biography (optional)","bio",{ta:3})}<div class="fl">Notifications</div><label class="tag"><input type="checkbox" ${c.notif.m?"checked":""} onchange="PF.c.notif.m=this.checked?1:0;sv_()"> New messages</label><label class="tag"><input type="checkbox" ${c.notif.b?"checked":""} onchange="PF.c.notif.b=this.checked?1:0;sv_()"> Booking updates</label><div class="er" id="verr"></div><div class="cta"><button class="btn o" onclick="cc()">Cancel</button><button class="btn" onclick="cs()">Save Profile</button></div></div>`}
+function cc(){c_=PF.c.saved;if(c_)PF.done=true;else PF.role=null;sv_();pn("pf")}
+var c_;
+function cs(){const c=PF.c,m=!c.name?"Enter your full name.":!/^\S+@\S+$/.test(c.email||"")?"Enter a valid email address.":!c.loc?"Enter your general location.":"";if(m){$("verr").textContent=m;return}busy(()=>{c.saved=1;PF.done=true;sv_();pn("pf")})}
+const sec=(t,b)=>`<div class="card pad"><h3>${t}</h3>${b}</div>`,GR='style="display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:14px"',RS='<button class="btn o" style="margin-top:12px" onclick="rst()">Discard unsaved changes</button>';
+function cpage(){const c=PF.c;return `<div class="card pad pr" style="flex-wrap:wrap">${av({photo:c.photo,c:"#7a3b6e",s:"#d9a47e",id:9},"big")}<div style="flex:1"><h2>${esc(c.disp||c.name)} <span class="tag">Customer</span></h2><div class="m">${esc(c.loc)}</div></div><button class="btn" onclick="PF.done=false;pn('pf')">Edit Profile</button></div><div ${GR}>${visCard("c")}${sec("Personal Information",`<div class="m">${esc(c.name)}<br>${esc(c.email)}<br>${esc(c.phone||"No phone added")}<br>${esc(c.bio||"No biography yet")}</div>`)}${sec("My Bookings",`<p class="m">No bookings yet.</p><a class="vf" onclick="pn('bk')">Open bookings</a>`)}${sec("Saved Tradespeople",`<p class="m">${fav.size} saved</p><a class="vf" onclick="go('browse')">Find tradespeople</a>`)}${sec("Messages",`<p class="m">${CVS.length} conversations</p><a class="vf" onclick="pn('msgs')">Open messages</a>`)}${sec("My Reviews",`<p class="m">No reviews written yet.</p><a class="vf" onclick="pn('rv')">Open reviews</a>`)}${sec("Account Settings",`<p class="m"><a class="vf" onclick="chgPw()">Change password</a><br>Notifications: messages ${c.notif.m?"on":"off"}, bookings ${c.notif.b?"on":"off"}</p><button class="btn o" style="margin-top:12px" onclick="out()">Log Out</button> ${RS}`)}</div>`}
+function twiz(){const s=PF.step||0,N=["Identity","Description","Services","Hours","Location","Images","Contact","Preview"],f=PF.flash||"";PF.flash="";
+return `<h2>Create Your Professional Profile</h2><p class="m">Tell customers who you are, what services you offer, where you work, and how much you charge.</p><div class="m" style="margin-top:14px">Step ${s+1} of 8: <b>${N[s]}</b></div><div style="height:8px;background:var(--chip);border-radius:9px;margin:6px 0 14px"><div style="width:${(s+1)*12.5}%;height:100%;background:var(--blue);border-radius:9px"></div></div>${f?`<div class="cf" style="padding:8px 12px;margin-bottom:10px">${f}</div>`:""}<div class="card pad">${tstep(s)}<div class="er" id="verr"></div><div class="cta" style="flex-wrap:wrap">${s>0?`<button class="btn o" onclick="nx(-1)">${s==7?"Back to Edit":"Previous"}</button>`:""}<button class="btn o" onclick="dr()">Save Draft</button>${s<7?`<button class="btn" onclick="nx(1)">Continue</button>`:`<button class="btn" onclick="sub()">Submit Profile</button>`}</div></div>`}
+function tstep(s){const t=PF.t;
+if(s==0)return fld("t","Full name","name",{r:1})+fld("t","Business or trading name (optional)","biz")+upl("t","Professional profile picture","photo")+(t.photo?thumb(t.photo):"")+slc("t","Main trade category *","trade",TR)+(t.trade=="Other"?fld("t","Your trade","other",{r:1}):"")+'<div class="fl">Additional trades</div>'+TR.filter(x=>x!=t.trade&&x!="Other").map(x=>chk(t.extra,x,"tg")).join("")+fld("t","Professional headline","head",{r:1});
+if(s==1)return fld("t","Professional biography / business description","bio",{r:1,ta:6})+fld("t","Years of experience","exp",{r:1,ty:"number"})+fld("t","Skills and specialisations","skills")+fld("t","Qualifications or certificates","qual")+fld("t","Licences (where required)","lic");
+if(s==2)return t.svc.map((v,k)=>`<div class="card pad" style="margin-top:12px"><b>Service ${k+1}</b>${sf(k,"n","Service name *")}${sf(k,"d","Description")}<label class="fl">Pricing method<div class="fi"><select onchange="PF.t.svc[${k}].m=this.value;sv_();pn('pf')">${Object.entries(PM).map(([a,b])=>`<option value="${a}" ${v.m==a?"selected":""}>${b}</option>`).join("")}</select></div></label>${v.m=="qt"?'<div class="m" style="margin-top:8px">Customers will request a quote.</div>':sf(k,"p","Price (US$) *","number")}<button class="btn o" style="margin-top:12px;padding:6px 14px" onclick="PF.t.svc.splice(${k},1);sv_();pn('pf')">Remove Service</button></div>`).join("")+`<button class="btn" style="margin-top:14px" onclick="PF.t.svc.push({m:'hr'});sv_();pn('pf')">Add Service</button>`;
+if(s==3)return '<div class="fl">Working days *</div>'+DAYS.map(d=>chk(t.days,d,"td")).join("")+fld("t","Opening time","open",{ty:"time"})+fld("t","Closing time","close",{ty:"time"})+slc("t","Availability status","avail",["Available","Busy","Unavailable"])+fld("t","Appointment preferences (optional)","appt");
+if(s==4)return fld("t","City or suburb","city",{r:1})+fld("t","Main service location","area",{r:1})+fld("t","Other suburbs or areas you serve","areas")+fld("t","Travel distance (km, optional)","dist",{ty:"number"})+'<p class="m" style="margin-top:8px">Do not enter your home address.</p>';
+if(s==5)return upl("t","Business logo (optional)","logo")+(t.logo?thumb(t.logo):"")+upl("t","Work gallery photos","gal",1)+t.gal.map((u,k)=>thumb(u,`PF.t.gal.splice(${k},1);sv_();pn('pf')`)).join("")+'<p class="m" style="margin-top:8px">Photos are resized and uploaded when you save.</p>';
+if(s==6)return slc("t","Preferred contact method","contact",["Message","Phone","Either"])+fld("t","Public business phone (optional)","phone")+`<label class="fl"><input type="checkbox" ${t.msgs?"checked":""} onchange="PF.t.msgs=this.checked?1:0;sv_()"> Accept messages</label><label class="fl"><input type="checkbox" ${t.bk?"checked":""} onchange="PF.t.bk=this.checked?1:0;sv_()"> Accept booking requests</label>`;
+return '<h3>Preview</h3><p class="m">This is how customers will see your listing.</p>'+pub(t)}
+function vals(s){const t=PF.t;
+if(s==0)return !t.name?"Enter your full name.":!t.trade?"Choose a main trade.":t.trade=="Other"&&!t.other?"Enter your trade.":!t.head?"Add a professional headline.":"";
+if(s==1)return !t.bio||t.bio.length<30?"Write a description of at least 30 characters.":t.exp===undefined||t.exp===""?"Enter your years of experience.":"";
+if(s==2)return !t.svc.length?"Add at least one service.":t.svc.some(v=>!v.n||(v.m!="qt"&&!(+v.p>0)))?"Each service needs a name and a price (unless quote required).":"";
+if(s==3)return !t.days.length?"Select at least one working day.":!t.open||!t.close?"Set opening and closing times.":"";
+if(s==4)return !t.city||!t.area?"Enter your city and main service location.":"";
+return ""}
+function nx(d){const s=PF.step||0;if(d>0){const m=vals(s);if(m){$("verr").textContent=m;return}}PF.step=s+d;sv_();pn("pf")}
+function dr(){PF.status=PF.status||"";busy(()=>{PF.flash="Draft saved in this browser (prototype only).";sv_();pn("pf")})}
+function sub(){for(let s=0;s<5;s++){const m=vals(s);if(m){PF.step=s;PF.flash=m;pn("pf");return}}busy(()=>{PF.done=true;PF.status="Pending Review";addMine();sv_();draw();top_();pn("pf")})}
+function addMine(){const t=PF.t,i=P.findIndex(p=>p.mine);if(i>-1)P.splice(i,1);if(t.vis==="private")return;const pr=t.svc.find(v=>+v.p>0);P.push({id:P.length,mine:1,n:t.biz||t.name,t:t.trade=="Other"?t.other:t.trade,r:"New",j:0,l:t.area,p:pr?+pr.p:0,photo:t.photo,c:"#1b2f57",s:"#b87d52",tg:t.extra.slice(0,2)})}
+function visCard(r){const o=PF[r],v=o.vis||(r=="t"?"public":"private"),b=(x,l)=>`<button class="btn ${v==x?"":"o"}" style="flex:1;padding:8px" onclick="setVis('${r}','${x}')">${l}</button>`;
+const who=v=="public"?av({photo:o.photo,c:"#7a3b6e",s:"#d9a47e",id:9}).replace('class="av "','class="av" style="width:34px;height:34px;border-radius:50%;flex:none"')+`<span><b>${esc(o.disp||o.name)}</b><div class="m">${esc(o.loc)}</div></span>`:`<span><b>Private customer</b><div class="m">Details hidden</div></span>`;
+return sec("Profile visibility",`<p class="m">${r=="t"?(v=="public"?"Your listing is visible in Search to all customers.":"Your listing is hidden. Customers cannot find or open it."):(v=="public"?"Tradespeople you message can see your name, photo and location.":"Your name, photo and location are hidden from tradespeople. Your profile stays private.")}</p><div style="display:flex;gap:10px;margin-top:12px">${b("public","Public")}${b("private","Private")}</div>${r=="c"?`<div class="m" style="margin-top:14px">What tradespeople see:</div><div class="bk">${who}</div>`:""}`)}
+function setVis(r,v){PF[r].vis=v;sv_();if(r=="t"){addMine();draw();top_()}pn("pf")}
+function prevList(){view("profile");$("pf").innerHTML='<a class="vf" style="display:block;padding:14px 0" onclick="pn(\'pf\');view(\'dash\')">\u2190 Back</a>'+(PF.t.vis==="private"?'<div class="cf" style="padding:8px 12px;margin-bottom:10px">Preview only. Your listing is private and hidden from Search.</div>':"")+pub(PF.t)}
+function rst(){PF={};sv_();const i=P.findIndex(p=>p.mine);if(i>-1)P.splice(i,1);role="c";draw();top_();pn("pf")}
+function pub(t){const S=(t.svc||[]).filter(s=>s.n),q=S.some(s=>s.m=="qt"),pr=s=>s.m=="qt"?"Quote required":(s.m=="st"?"From ":"")+"US$"+esc(s.p)+(s.m=="hr"?"/hr":""),tr=t.trade=="Other"?t.other:t.trade;
+return `<div class="ph">${av({photo:t.photo,c:"#1b2f57",s:"#b87d52",id:5})}<div class="info"><h1>${esc(t.biz||t.name)}</h1><div class="m">${esc(t.name)}</div><div>${esc(tr)}${t.extra.length?" • "+esc(t.extra.join(", ")):""}</div><div class="m">${esc(t.area)}, ${esc(t.city)}</div><div class="m">${esc(t.head)}</div><div class="m">No reviews yet</div></div><div class="rgt">${t.msgs?`<button class="btn" onclick="need('msgs')">Message</button>`:""}${t.bk||q?`<button class="btn o">${q?"Request a Quote":"Book Service"}</button>`:""}</div></div><div class="pg" style="margin-top:16px"><div class="card"><h3>About</h3><p class="m">${esc(t.bio)}</p><div class="ir">${I("brief")}<span>Experience<small>${esc(t.exp)} years</small></span></div>${t.skills?`<div class="ir">${I("star")}<span>Skills<small>${esc(t.skills)}</small></span></div>`:""}${t.qual?`<div class="ir">${I("shield")}<span>Qualifications<small>${esc(t.qual)}</small></span></div>`:""}${t.lic?`<div class="ir">${I("check")}<span>Licences<small>${esc(t.lic)}</small></span></div>`:""}</div><div class="card"><h3>Services &amp; Prices</h3>${S.map(s=>`<div class="sv"><span>${esc(s.n)}<small>${esc(s.d)}</small></span><b>${pr(s)}</b></div>`).join("")}</div><div class="card"><h3>Hours &amp; Area</h3><div class="ir">${I("clock")}<span>${esc(t.days.join(", "))}<small>${esc(t.open)} – ${esc(t.close)} • ${esc(t.avail)}</small></span></div><div class="ir">${I("pin")}<span>Service area<small>${esc([t.area,t.areas].filter(Boolean).join(", "))}${t.dist?" • up to "+esc(t.dist)+" km":""}</small></span></div>${t.phone?`<div class="ir">${I("phone")}<span>Business phone<small>${esc(t.phone)}</small></span></div>`:""}</div></div><div class="pg" style="grid-template-columns:1fr 1fr;margin-top:14px"><div class="card"><h3>Work Gallery</h3>${t.gal.length?t.gal.map(u=>thumb(u)).join(""):'<p class="m">No photos added yet.</p>'}</div><div class="card"><h3>Reviews</h3><p class="m">No reviews yet. Reviews appear after completed jobs.</p></div></div>`}
+function tman(){const t=PF.t;return `<div class="card pad pr" style="flex-wrap:wrap">${av({photo:t.photo,c:"#1b2f57",s:"#b87d52",id:5},"big")}<div style="flex:1"><h2>${esc(t.biz||t.name)}</h2><div class="m">${esc(t.trade=="Other"?t.other:t.trade)} • ${esc(t.area)}</div><span class="tag" style="color:#b7791f">${PF.status}</span><div class="m">Not verified. ${t.vis==="private"?"Your listing is private and hidden from Search.":(typeof SB!="undefined"?(PF.status==="Approved"?"Your listing is live in Search.":"Your listing stays hidden from Search until it is approved."):"Your listing is visible in Search.")}</div></div><div style="display:grid;gap:8px"><button class="btn" onclick="PF.done=false;PF.step=0;pn('pf')">Edit Professional Profile</button><button class="btn o" onclick="prevList()">Preview Public Listing</button></div></div><div ${GR}>${visCard("t")}${sec("Services &amp; Prices",t.svc.map(s=>`<div class="sv"><span>${esc(s.n)}</span><b>${s.m=="qt"?"Quote":"US$"+esc(s.p)}</b></div>`).join(""))}${sec("Availability",`<p class="m">${esc(t.days.join(", "))}<br>${esc(t.open)} – ${esc(t.close)} • ${esc(t.avail)}</p>`)}${sec("Work Images",t.gal.length?t.gal.map(u=>thumb(u)).join(""):'<p class="m">No photos yet.</p>')}${sec("Messages",`<p class="m">${CVS.length} conversations</p><a class="vf" onclick="pn('msgs')">Open messages</a>`)}${sec("Bookings &amp; Enquiries",`<p class="m">No enquiries yet.</p><a class="vf" onclick="pn('bk')">Open bookings</a>`)}${sec("Account",`<button class="btn o" onclick="chgPw()">Change password</button> <button class="btn o" onclick="out()">Log Out</button> ${RS}`)}</div>`}
+function acct(){const f=(l,v,t)=>`<label class="fl">${l}<div class="fi"><input value="${v}" ${t?`type="${t}"`:""}></div></label>`;
+return `<div class="card pad" style="margin-top:14px"><h3 style="margin-bottom:4px">Account</h3><div class="m">Your login and contact details.</div>${f("Email or phone",role=="c"?"kora@email.com":"lani@email.com")}${f("Password","••••••••","password")}<div style="display:flex;gap:10px;margin-top:16px"><button class="btn" onclick="this.textContent='Saved'">Save Changes</button><button class="btn o" onclick="out()">Log Out</button></div></div>`}
+
+if(PF.status&&PF.t){addMine();draw();top_()}
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* TradeLink + Supabase: stage 1 and 2 (real accounts + saving profiles).
+   Load order in the page: main HTML script -> profile-update.js -> the Supabase library -> this file.
+   The key below is a PUBLISHABLE key: safe in website code, because the security rules
+   in your database decide what each person can read or change.
+   NEVER put a "service_role" or "secret" key in this file. */
+const SUPABASE_URL = "https://idiuuijplinhpqaerkdh.supabase.co";
+const SUPABASE_KEY = "sb_publishable_4hia0KG4P1hjJ-2TdmArvg_JCXaW7mX";
+if (typeof supabase === "undefined") {   // the database library did not load (no internet?)
+  window.doAuth = function () { const er = $("er"); if (er) { er.style.color = ""; er.textContent = "Cannot connect right now. Check your internet connection and refresh the page."; } };
+  throw new Error("Supabase library did not load");
+}
+const SB = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let ME_ADMIN = false, ME_ID = null, MYLID = null, CVS = [], BKS = [], RVS = [], UNR = 0;
+const PM2 = {hourly:"hr", fixed:"fx", starting:"st", quote:"qt"}, PM3 = {hr:"hourly", fx:"fixed", st:"starting", qt:"quote"};
+const LBL = {draft:"Draft", incomplete:"Incomplete", pending_review:"Pending Review", approved:"Approved", changes_requested:"Changes Requested", suspended:"Suspended"};
+const authBtn = () => AUTHBTN + (ME_ADMIN ? ' <button class="btn o" style="padding:7px 14px" onclick="need(\'ad\')">Admin</button>' : "");
+const AUTHBTN = '<button class="btn" style="padding:7px 14px" onclick="need(\'dash\')">My Dashboard</button>';
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : "";
+const ck = async q => { const r = await q; if (r.error) throw r.error; return r.data; };
+/* Shows any hidden error in a red bar at the bottom, so the screen never goes blank silently. */
+function showErr(m) {
+  let b = document.getElementById("errbar");
+  if (!b) { b = document.createElement("div"); b.id = "errbar"; b.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:99;background:#e5384f;color:#fff;padding:10px 14px;font-size:13px;cursor:pointer"; document.body.appendChild(b); }
+  b.textContent = "Something went wrong: " + m + " (tap to close)"; b.onclick = () => b.remove();
+}
+window.addEventListener("error", e => showErr(e.message));
+window.addEventListener("unhandledrejection", e => showErr(e.reason && e.reason.message || String(e.reason)));
+const fail = e => { const b = $("verr"); if (b) b.textContent = "Could not save: " + (e && e.message || e); };
+
+/* ---------- photos: shrink before upload, then store in Supabase Storage ---------- */
+function shrink(f) {
+  return new Promise((ok, no) => {
+    const r = new FileReader; r.onerror = no;
+    r.onload = () => {
+      const im = new Image; im.onerror = no;
+      im.onload = () => {
+        const k = Math.min(1, 1280 / Math.max(im.width, im.height)), c = document.createElement("canvas");
+        c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+        c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+        ok(c.toDataURL("image/jpeg", 0.85));
+      };
+      im.src = r.result;
+    };
+    r.readAsDataURL(f);
+  });
+}
+window.up = function (el, g, k, m) {
+  [...el.files].forEach(f => shrink(f).then(u => { m ? PF[g][k].push(u) : PF[g][k] = u; sv_(); pn("pf"); })
+    .catch(() => alert("That image could not be read.")));
+};
+async function upload(bucket, dataUrl, name) {
+  if (!dataUrl || !String(dataUrl).startsWith("data:")) return dataUrl || null;   // already a stored link
+  const blob = await (await fetch(dataUrl)).blob();
+  const path = ME_ID + "/" + name + ".jpg";
+  await ck(SB.storage.from(bucket).upload(path, blob, {upsert: true, contentType: "image/jpeg"}));
+  return SB.storage.from(bucket).getPublicUrl(path).data.publicUrl + "?v=" + Date.now();
+}
+
+/* ---------- load the signed-in person's data from the database ---------- */
+async function loadMe() {
+  const {data: {user}} = await SB.auth.getUser();
+  if (!user) return false;
+  ME_ID = user.id; MYLID = null;
+  const pr = await ck(SB.from("profiles").select("*").eq("id", user.id).single());
+  const pp = (await ck(SB.from("profile_private").select("*").eq("id", user.id).maybeSingle())) || {};
+  U = {name: pr.full_name || "Member"}; ME_ADMIN = !!pr.is_admin;
+  const r = pr.role == "tradesperson" ? "t" : "c"; role = r;
+  PF = {role: r, step: 0, flash: "", c: {name: pr.full_name || "", disp: pr.display_name || "", email: user.email || "", phone: pp.phone || "", loc: pr.location || "", bio: pr.bio || "", photo: pr.avatar_url || "", notif: {m: pp.notify_messages === false ? 0 : 1, b: pp.notify_bookings === false ? 0 : 1}, vis: pr.visibility, saved: pr.location ? 1 : 0}};
+  ens();
+  if (r == "c") { PF.done = !!pr.location; return true; }
+  PF.t.name = pr.full_name || ""; PF.t.photo = pr.avatar_url || ""; PF.t.vis = pr.visibility;
+  const l = await ck(SB.from("trade_listings").select("*").eq("owner_id", user.id).maybeSingle());
+  if (!l) { PF.done = false; return true; }
+  const sv = await ck(SB.from("services").select("*").eq("listing_id", l.id).order("sort_order"));
+  const gl = await ck(SB.from("gallery").select("*").eq("listing_id", l.id).order("sort_order"));
+  Object.assign(PF.t, {biz: l.business_name || "", head: l.headline || "", trade: l.main_trade, other: l.other_trade || "", extra: l.extra_trades || [], bio: l.bio || "", exp: l.years_experience == null ? "" : String(l.years_experience), skills: l.skills || "", qual: l.qualifications || "", lic: l.licences || "", city: l.city || "", area: l.main_area || "", areas: l.areas_served || "", dist: l.travel_km == null ? "" : String(l.travel_km), days: l.working_days || [], open: (l.open_time || "08:00").slice(0, 5), close: (l.close_time || "17:00").slice(0, 5), avail: cap(l.availability_status), appt: l.appointment_notes || "", contact: cap(l.contact_method), phone: l.public_phone || "", msgs: l.accepts_messages ? 1 : 0, bk: l.accepts_bookings ? 1 : 0, logo: l.logo_url || "",
+    svc: sv.length ? sv.map(s => ({n: s.name, d: s.description || "", m: PM2[s.pricing_method], p: s.price == null ? "" : String(s.price)})) : [{m: "hr"}],
+    gal: gl.map(g => g.image_url)});
+  PF.raw = l.status; PF.status = LBL[l.status]; PF.done = !["draft", "incomplete"].includes(l.status); MYLID = l.id; PF.note = l.admin_note || "";
+  return true;
+}
+
+/* ---------- Search: real approved + public listings ---------- */
+async function loadListings() {
+  const ls = await ck(SB.from("public_listings").select("*"));
+  for (let i = P.length - 1; i >= 0; i--) if (P[i].real) P.splice(i, 1);
+  if (!ls || !ls.length) { await loadFavs(); return; }
+  const ids = ls.map(l => l.id);
+  const sv = await ck(SB.from("services").select("*").in("listing_id", ids).order("sort_order"));
+  const gl = await ck(SB.from("gallery").select("*").in("listing_id", ids).order("sort_order"));
+  ls.forEach(l => {
+    const t = {name: l.full_name || "", biz: l.business_name || "", photo: l.avatar_url || "", trade: l.main_trade, other: l.other_trade || "", extra: l.extra_trades || [], head: l.headline || "", bio: l.bio || "", exp: l.years_experience == null ? "" : l.years_experience, skills: l.skills || "", qual: l.qualifications || "", lic: l.licences || "", city: l.city || "", area: l.main_area || "", areas: l.areas_served || "", dist: l.travel_km || "", days: l.working_days || [], open: (l.open_time || "").slice(0, 5), close: (l.close_time || "").slice(0, 5), avail: cap(l.availability_status), phone: l.public_phone || "", msgs: l.accepts_messages ? 1 : 0, bk: l.accepts_bookings ? 1 : 0,
+      gal: gl.filter(g => g.listing_id == l.id).map(g => g.image_url),
+      svc: sv.filter(s => s.listing_id == l.id).map(s => ({n: s.name, d: s.description || "", m: PM2[s.pricing_method], p: s.price == null ? "" : s.price}))};
+    P.push({id: P.length, real: 1, verified: l.verified, owner: l.owner_id, n: l.business_name || l.full_name || "Tradesperson", t: l.main_trade == "Other" && l.other_trade ? l.other_trade : l.main_trade, r: l.avg_rating || "New", j: l.review_count || 0, l: l.main_area || l.city || "", p: +l.from_price || 0, photo: l.avatar_url, c: "#1b2f57", s: "#b87d52", tg: (l.extra_trades || []).slice(0, 2), tt: Object.assign(t, {owner: l.owner_id, lid: l.id})});
+  });
+  await loadFavs();
+}
+const _show = window.show;
+window.show = function (i, t) {
+  const p = P[i];
+  if (p && p.real) {
+    history.replaceState(0, "", "#profile"); view("profile");
+    $("pf").innerHTML = '<a class="vf" style="display:block;padding:14px 0" onclick="go(\'browse\')">\u2190 Back to results</a>' + pub(p.tt);
+    return;
+  }
+  _show(i, t);
+};
+window.addMine = function () {};   // the old browser-only demo listing is switched off
+
+/* ---------- saving ---------- */
+async function saveCustomer() {
+  const c = PF.c, avatar = await upload("avatars", c.photo, "avatar");
+  await ck(SB.from("profiles").update({full_name: c.name, display_name: c.disp || null, location: c.loc, bio: c.bio || null, avatar_url: avatar, visibility: c.vis || "private"}).eq("id", ME_ID));
+  await ck(SB.from("profile_private").update({phone: c.phone || null, notify_messages: !!c.notif.m, notify_bookings: !!c.notif.b}).eq("id", ME_ID));
+  c.photo = avatar || "";
+}
+async function saveListing(status) {
+  const t = PF.t, avatar = await upload("avatars", t.photo, "avatar"), logo = await upload("avatars", t.logo, "logo");
+  await ck(SB.from("profiles").update({full_name: t.name, avatar_url: avatar, visibility: t.vis || "public"}).eq("id", ME_ID));
+  const row = {owner_id: ME_ID, business_name: t.biz || null, headline: t.head || null, main_trade: t.trade || "Other", other_trade: t.trade == "Other" ? (t.other || null) : null, extra_trades: t.extra || [], bio: t.bio || null, years_experience: t.exp === "" || t.exp == null ? null : +t.exp, skills: t.skills || null, qualifications: t.qual || null, licences: t.lic || null, city: t.city || null, main_area: t.area || null, areas_served: t.areas || null, travel_km: t.dist ? +t.dist : null, working_days: t.days || [], open_time: t.open || null, close_time: t.close || null, availability_status: (t.avail || "Available").toLowerCase(), appointment_notes: t.appt || null, contact_method: (t.contact || "Message").toLowerCase(), public_phone: t.phone || null, accepts_messages: !!t.msgs, accepts_bookings: !!t.bk, logo_url: logo, status};
+  const l = await ck(SB.from("trade_listings").upsert(row, {onConflict: "owner_id"}).select().single());
+  await ck(SB.from("services").delete().eq("listing_id", l.id));
+  const rows = (t.svc || []).filter(v => v.n).map((v, i) => ({listing_id: l.id, name: v.n, description: v.d || null, pricing_method: PM3[v.m] || "hourly", price: v.m == "qt" ? null : (+v.p || 0), sort_order: i}));
+  if (rows.length) await ck(SB.from("services").insert(rows));
+  const urls = [];
+  for (let i = 0; i < (t.gal || []).length; i++) urls.push(await upload("gallery", t.gal[i], "g" + Date.now() + "-" + i));
+  await ck(SB.from("gallery").delete().eq("listing_id", l.id));
+  if (urls.length) await ck(SB.from("gallery").insert(urls.map((u, i) => ({listing_id: l.id, image_url: u, sort_order: i}))));
+  t.photo = avatar || ""; t.logo = logo || ""; t.gal = urls; PF.raw = l.status; PF.status = LBL[l.status];
+}
+const draftSt = () => ["approved", "pending_review", "suspended"].includes(PF.raw) ? PF.raw : "draft";
+
+window.cs = function () {
+  const c = PF.c, m = !c.name ? "Enter your full name." : !/^\S+@\S+$/.test(c.email || "") ? "Enter a valid email address." : !c.loc ? "Enter your general location." : "";
+  if (m) { $("verr").textContent = m; return; }
+  busy(async () => { try { await saveCustomer(); c.saved = 1; PF.done = true; U.name = c.name; pn("pf"); } catch (e) { PF.done = false; pn("pf"); fail(e); } });
+};
+window.sub = function () {
+  for (let s = 0; s < 5; s++) { const m = vals(s); if (m) { PF.step = s; PF.flash = m; pn("pf"); return; } }
+  busy(async () => { try { await saveListing(PF.raw == "approved" ? "approved" : "pending_review"); PF.done = true; await loadListings(); draw(); top_(); pn("pf"); } catch (e) { PF.done = false; pn("pf"); fail(e); } });
+};
+window.dr = function () {
+  busy(async () => { try { await saveListing(draftSt()); if (!["draft", "incomplete"].includes(PF.raw)) PF.done = true; else PF.flash = "Draft saved to your account."; pn("pf"); } catch (e) { pn("pf"); fail(e); } });
+};
+window.setVis = async function (r, v) {
+  try {
+    await ck(SB.from("profiles").update({visibility: v}).eq("id", ME_ID));
+    PF.c.vis = v; PF.t.vis = v; await loadListings(); draw(); top_(); pn("pf");
+  } catch (e) { alert("Could not change visibility: " + (e.message || e)); }
+};
+window.rst = async function () { try { await loadMe(); pn("pf"); } catch (e) { alert("Could not reload: " + (e.message || e)); } };   // discards unsaved changes
+
+/* ---------- real sign up / log in / log out ---------- */
+window.doAuth = async function (s) {
+  const e = $("em").value.trim(), p = $("pw").value, n = s ? $("fn").value.trim() : "", er = $("er");
+  const m = !/^\S+@\S+\.\S+$/.test(e) ? "Use a valid email address (phone sign-in is not available yet)." : !p ? "Enter your password." : s && !n ? "Enter your full name." : s && p.length < 6 ? "Use a password with at least 6 characters." : s && $("pc").value != p ? "Passwords do not match." : s && !$("tc").checked ? "Agree to the Terms of Service to continue." : "";
+  if (m) { er.style.color = ""; er.textContent = m; return; }
+  er.style.color = "var(--mut)"; er.textContent = "Please wait\u2026";
+  try {
+    if (s) {
+      const {data, error} = await SB.auth.signUp({email: e, password: p, options: {data: {full_name: n, role: role == "t" ? "tradesperson" : "customer"}}});
+      if (error) throw error;
+      if (!data.session) { er.style.color = "var(--grn)"; er.textContent = "Account created. Check your email to confirm it, then log in."; return; }
+    } else {
+      const {error} = await SB.auth.signInWithPassword({email: e, password: p});
+      if (error) throw error;
+    }
+    await loadMe(); await loadAll(); await loadListings(); await loadFavs(); draw(); top_();
+    $("auth").innerHTML = authBtn(); openDash(AN); $("au").hidden = true;
+  } catch (x) { er.style.color = ""; er.textContent = x.message || String(x); }
+};
+const _out = window.out;
+window.out = async function () { try { await SB.auth.signOut(); } catch (e) {} PF = {}; ME_ID = null; ME_ADMIN = false; ADM = null; MYLID = null; CVS = []; BKS = []; RVS = []; UNR = 0; sv_(); _out(); };
+
+/* ---------- on page load: clear old demo data, load listings, restore session ---------- */
+(async () => {
+  try {
+    PF = {}; sv_();
+    const i = P.findIndex(p => p.mine); if (i > -1) P.splice(i, 1);
+    await loadListings(); draw(); top_();
+    const {data: {session}} = await SB.auth.getSession();
+    if (session && await loadMe()) { $("auth").innerHTML = authBtn(); await loadAll(); await loadFavs(); draw(); top_(); }
+  } catch (e) { console.warn("Supabase start-up:", e); showErr("start-up: " + (e.message || e)); }
+})();
+
+
+/* =====================================================================
+   STAGE 3: real messages, bookings and reviews
+   ===================================================================== */
+const when = x => { const d = new Date(x), n = new Date(); return d.toDateString() == n.toDateString() ? d.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}) : d.toLocaleDateString([], {day: "numeric", month: "short"}); };
+const dt = x => x ? new Date(x).toLocaleString([], {dateStyle: "medium", timeStyle: "short"}) : "Date to be agreed";
+const stars = n => "\u2605".repeat(n) + "\u2606".repeat(5 - n);
+async function loadAll() { await Promise.all([loadThreads(), loadBookings()]); await loadReviews(); }
+
+/* ---- messages ---- */
+async function loadThreads() {
+  const cs = await ck(SB.from("conversations").select("*"));
+  if (!cs || !cs.length) { CVS = []; UNR = 0; return; }
+  const oids = [...new Set(cs.map(c => c.customer_id == ME_ID ? c.tradesperson_id : c.customer_id))], cids = cs.map(c => c.id);
+  const ps = await ck(SB.from("profiles").select("id,full_name,display_name,avatar_url,role").in("id", oids));
+  const ms = await ck(SB.from("messages").select("*").in("conversation_id", cids).order("created_at"));
+  CVS = cs.map(c => {
+    const oid = c.customer_id == ME_ID ? c.tradesperson_id : c.customer_id, p = (ps || []).find(x => x.id == oid), m = (ms || []).filter(x => x.conversation_id == c.id);
+    return {id: c.id, oid, as: c.customer_id == ME_ID ? "c" : "t", name: p ? (p.display_name || p.full_name || "Member") : "Private customer", sub: c.customer_id == ME_ID ? "Tradesperson" : "Customer", photo: p && p.avatar_url || "", m, unread: m.filter(x => x.sender_id != ME_ID && !x.read_at).length, last: m.length ? m[m.length - 1].created_at : c.created_at};
+  });
+  CVS.sort((a, b) => b.last > a.last ? 1 : -1);
+  UNR = CVS.reduce((n, c) => n + c.unread, 0);
+}
+async function markRead(c) {
+  if (!c || !c.unread) return;
+  const now = new Date().toISOString();
+  c.m.forEach(x => { if (x.sender_id != ME_ID && !x.read_at) x.read_at = now; });
+  UNR -= c.unread; c.unread = 0;
+  try { await ck(SB.from("messages").update({read_at: now}).eq("conversation_id", c.id).neq("sender_id", ME_ID).is("read_at", null)); } catch (e) {}
+}
+window.msgs = function () {
+  if (!CVS.length) return `<h2>Messages</h2><p class="m">Chat safely through TradeLink.</p><div class="card pad" style="margin-top:14px">No conversations yet. ${role == "c" ? "Open a tradesperson's profile and tap Message to start one." : "Customers appear here when they message you."}</div>`;
+  if (ci >= CVS.length) ci = 0;
+  const c = CVS[ci], pic = {photo: c.photo, c: "#2a3a5a", s: "#b87d52", id: 5}; markRead(c);
+  return `<h2>Messages</h2><div class="m">Chat safely through TradeLink.</div><div class="ms card"><div class="ml"><label class="sbx">${I("search")}<input placeholder="Search" oninput="document.querySelectorAll('.mi').forEach(e=>e.hidden=!e.textContent.toLowerCase().includes(this.value.toLowerCase()))"></label>${CVS.map((x, k) => `<div class="mi ${k == ci ? "on" : ""}" onclick="ci=${k};pn('msgs')">${av({photo: x.photo, c: "#2a3a5a", s: "#b87d52", id: 5})}<div><b>${esc(x.name)}</b><small>${x.sub}</small></div><span>${when(x.last)}${x.unread && k != ci ? `<i class="ub">${x.unread}</i>` : ""}</span></div>`).join("")}</div>
+<div class="mc"><div class="mh">${av(pic)}<div><b>${esc(c.name)}</b><small>${c.sub}</small></div></div><div class="mb" id="mb">${c.m.map(m => `<div class="bb ${m.sender_id == ME_ID ? "me" : "them"}">${esc(m.body)}<small>${when(m.created_at)}</small></div>`).join("") || '<p class="m">Say hello.</p>'}</div><div class="mf"><input id="mi" placeholder="Type a message" onkeydown="if(event.key=='Enter')snd()"><button class="btn" onclick="snd()">Send Message</button></div></div></div>`;
+};
+window.snd = async function () {
+  const v = $("mi").value.trim(); if (!v || !CVS[ci]) return; const c = CVS[ci];
+  try {
+    const r = await ck(SB.from("messages").insert({conversation_id: c.id, sender_id: ME_ID, body: v}).select().single());
+    c.m.push(r); c.last = r.created_at; pn("msgs"); const b = $("mb"); if (b) b.scrollTop = b.scrollHeight; $("mi").focus();
+  } catch (e) { alert("Could not send: " + (e.message || e)); }
+};
+window.startChat = async function (oid) {
+  if (!U) { openAuth("login"); return; }
+  if (role != "c") { alert("Only customer accounts can start a chat. Tradespeople reply to customers who message them."); return; }
+  if (oid == ME_ID) return;
+  try {
+    let k = CVS.findIndex(x => x.oid == oid);
+    if (k < 0) { await ck(SB.from("conversations").insert({customer_id: ME_ID, tradesperson_id: oid})); await loadThreads(); k = CVS.findIndex(x => x.oid == oid); }
+    ci = Math.max(k, 0); openDash("msgs");
+  } catch (e) { alert("Could not open the chat: " + (e.message || e)); }
+};
+let lastSig = "";
+setInterval(async () => {        // checks for new messages every 8 seconds
+  if (!U || !ME_ID) return;
+  try {
+    const keep = pane == "msgs" && $("mi") ? $("mi").value : "";
+    await loadThreads();
+    const sig = CVS.map(c => c.id + ":" + c.m.length).join();
+    if (sig !== lastSig) { lastSig = sig; if (!$("dash").hidden) { if (pane == "msgs") { pn("msgs"); if ($("mi")) $("mi").value = keep; } else if (pane == "dash") pn("dash"); } }
+  } catch (e) {}
+}, 8000);
+
+/* ---- bookings ---- */
+async function loadBookings() {
+  const bs = await ck(SB.from("bookings").select("*").order("created_at", {ascending: false}));
+  if (!bs || !bs.length) { BKS = []; return; }
+  const lids = [...new Set(bs.map(b => b.listing_id))], sids = bs.map(b => b.service_id).filter(Boolean), cids = [...new Set(bs.map(b => b.customer_id))];
+  const ls = await ck(SB.from("public_listings").select("id,business_name,full_name,main_trade").in("id", lids));
+  const ss = sids.length ? await ck(SB.from("services").select("id,name").in("id", sids)) : [];
+  const ps = await ck(SB.from("profiles").select("id,full_name,display_name").in("id", cids));
+  BKS = bs.map(b => { const l = (ls || []).find(x => x.id == b.listing_id), s = (ss || []).find(x => x.id == b.service_id), p = (ps || []).find(x => x.id == b.customer_id);
+    return Object.assign({}, b, {lname: l ? (l.business_name || l.full_name) : (b.listing_id == MYLID ? "Your listing" : "Tradesperson"), sname: s ? s.name : "General enquiry", cname: p ? (p.display_name || p.full_name) : "Customer"}); });
+}
+const bacts = (b, c) => {
+  const a = (s, l) => `<a class="vf" onclick="setBk('${b.id}','${s}')">${l}</a>`;
+  if (c) return b.status == "completed" ? (RVS.some(r => r.booking_id == b.id) ? "" : `<a class="vf" onclick="openReview('${b.id}')">Leave a review</a>`) : (b.status == "requested" || b.status == "confirmed" ? a("cancelled", "Cancel") : "");
+  return b.status == "requested" ? a("confirmed", "Confirm") + " " + a("cancelled", "Decline") : b.status == "confirmed" ? a("completed", "Mark completed") + " " + a("cancelled", "Cancel") : "";
+};
+window.bkp = function () {
+  const c = role == "c", st = {requested: "Requested", confirmed: "Confirmed", completed: "Completed", cancelled: "Cancelled"};
+  return `<h2>${c ? "My Bookings" : "Bookings &amp; Enquiries"}</h2><div class="card pad" style="margin-top:14px">${BKS.length ? BKS.map(b => `<div class="bk" style="flex-wrap:wrap"><span><b>${esc(b.sname)} \u2013 ${esc(c ? b.lname : b.cname)}</b><div class="m">${dt(b.scheduled_at)}${b.notes ? " \u2022 " + esc(b.notes) : ""}</div></span><i class="cf" style="font-style:normal">${st[b.status]}</i>${bacts(b, c)}</div>`).join("") : '<p class="m">No bookings yet.</p>'}</div>`;
+};
+window.setBk = async function (id, s) {
+  try { await ck(SB.from("bookings").update({status: s}).eq("id", id)); await loadBookings(); pn("bk"); } catch (e) { alert("Could not update: " + (e.message || e)); }
+};
+window.openBook = async function (lid) {
+  if (!U) { openAuth("login"); return; }
+  if (role != "c") { alert("Only customer accounts can book a service."); return; }
+  let ss = []; try { ss = await ck(SB.from("services").select("id,name,pricing_method").eq("listing_id", lid).order("sort_order")); } catch (e) {}
+  $("au").hidden = false;
+  $("au").innerHTML = `<div class="aw" style="grid-template-columns:1fr"><div class="ac"><button class="x" aria-label="Close" onclick="$('au').hidden=true">${I("x")}</button><h2>Request a booking</h2><div class="m">The tradesperson will confirm or decline.</div><label class="fl">Service<div class="fi"><select id="bs">${(ss || []).map(s => `<option value="${s.id}">${esc(s.name)}${s.pricing_method == "quote" ? " (quote)" : ""}</option>`).join("") || '<option value="">General enquiry</option>'}</select></div></label><label class="fl">Preferred date and time<div class="fi"><input id="bd" type="datetime-local"></div></label><label class="fl">Notes<div class="fi"><textarea id="bn" rows="3"></textarea></div></label><div class="er" id="bx"></div><button class="btn" onclick="sendBook('${lid}')">Send request</button></div></div>`;
+};
+window.sendBook = async function (lid) {
+  const sid = $("bs").value || null, d = $("bd").value, n = $("bn").value.trim();
+  try { await ck(SB.from("bookings").insert({customer_id: ME_ID, listing_id: lid, service_id: sid, scheduled_at: d ? new Date(d).toISOString() : null, notes: n || null})); await loadBookings(); $("au").hidden = true; openDash("bk"); }
+  catch (e) { $("bx").textContent = e.message || String(e); }
+};
+
+/* ---- reviews ---- */
+async function loadReviews() {
+  if (role == "c") RVS = (await ck(SB.from("reviews").select("*").eq("customer_id", ME_ID).order("created_at", {ascending: false}))) || [];
+  else RVS = MYLID ? ((await ck(SB.from("reviews").select("*").eq("listing_id", MYLID).order("created_at", {ascending: false}))) || []) : [];
+}
+window.rvp = function () {
+  const c = role == "c";
+  return `<h2>${c ? "My Reviews" : "Reviews"}</h2><div class="card pad" style="margin-top:14px">${RVS.length ? RVS.map(r => { const b = BKS.find(x => x.id == r.booking_id);
+    return `<div class="bk" style="flex-wrap:wrap"><span><b class="rt">${stars(r.rating)}</b> ${c && b ? "\u2013 " + esc(b.lname) : ""}<div class="m">${esc(r.comment || "No comment")}</div>${r.owner_reply ? `<div class="m"><b>Reply:</b> ${esc(r.owner_reply)}</div>` : (!c ? `<div class="fi" style="margin-top:8px"><input id="rr${r.id}" placeholder="Write a reply"></div><a class="vf" onclick="replyRv('${r.id}')">Send reply</a>` : "")}</span></div>`; }).join("") : `<p class="m">${c ? "You can review a tradesperson after a booking is marked completed." : "No reviews yet. Reviews appear after completed jobs."}</p>`}</div>`;
+};
+window.openReview = function (bid) {
+  $("au").hidden = false;
+  $("au").innerHTML = `<div class="aw" style="grid-template-columns:1fr"><div class="ac"><button class="x" aria-label="Close" onclick="$('au').hidden=true">${I("x")}</button><h2>Leave a review</h2><label class="fl">Rating<div class="fi"><select id="rt">${[5, 4, 3, 2, 1].map(n => `<option value="${n}">${stars(n)}</option>`).join("")}</select></div></label><label class="fl">Comment<div class="fi"><textarea id="rc" rows="3"></textarea></div></label><div class="er" id="rx"></div><button class="btn" onclick="sendReview('${bid}')">Submit review</button></div></div>`;
+};
+window.sendReview = async function (bid) {
+  const b = BKS.find(x => x.id == bid);
+  try { await ck(SB.from("reviews").insert({booking_id: bid, listing_id: b.listing_id, customer_id: ME_ID, rating: +$("rt").value, comment: $("rc").value.trim() || null})); await loadReviews(); $("au").hidden = true; openDash("rv"); }
+  catch (e) { $("rx").textContent = e.message || String(e); }
+};
+window.replyRv = async function (id) {
+  const v = $("rr" + id).value.trim(); if (!v) return;
+  try { await ck(SB.from("reviews").update({owner_reply: v}).eq("id", id)); await loadReviews(); pn("rv"); } catch (e) { alert("Could not reply: " + (e.message || e)); }
+};
+
+/* ---- the real dashboard numbers ---- */
+window.dbd = function () {
+  const c = role == "c", act = BKS.filter(b => b.status == "requested" || b.status == "confirmed"), req = BKS.filter(b => b.status == "requested").length, conf = BKS.filter(b => b.status == "confirmed").length;
+  const S = c ? [["Saved Tradespeople", fav.size, "star"], ["Active Bookings", act.length, "clock"], ["Unread Messages", UNR, "msg"], ["Reviews Written", RVS.length, "star"]] : [["Booking Requests", req, "filter"], ["Upcoming Jobs", conf, "clock"], ["Unread Messages", UNR, "msg"], ["Rating", RVS.length ? (RVS.reduce((a, r) => a + r.rating, 0) / RVS.length).toFixed(1) : "New", "star"]];
+  const t = PF.t || {}, f = [t.name, t.photo, t.trade, t.head, t.bio, t.exp, t.skills, t.qual, t.city, t.area, (t.svc || []).some(v => v.n), (t.gal || []).length, t.phone], pct = Math.round(f.filter(Boolean).length / f.length * 100);
+  const head = c ? `<h2>Welcome back, ${esc(U.name.split(" ")[0])}</h2><p class="m" style="margin:4px 0 14px">Your account is private. Only you can see it.</p>`
+    : `<h2>Welcome, ${esc(U.name)}</h2><div class="card pad" style="margin:12px 0 14px;border-left:4px solid var(--gold)"><b>Listing status: <span class="tag" style="color:#b7791f;margin:0">${PF.status || "Not submitted"}</span></b><div class="m">${PF.status == "Approved" ? "Your listing is live in Search." : "Your listing is hidden from Search until it is approved."}</div>${PF.note && PF.status == "Changes Requested" ? `<div class="m" style="margin-top:8px"><b>Note from TradeLink:</b> ${esc(PF.note)}</div>` : ""}<div class="m" style="margin-top:10px">Profile completion: ${pct}%</div><div style="height:8px;background:var(--chip);border-radius:9px;margin-top:4px"><div style="width:${pct}%;height:100%;background:var(--blue);border-radius:9px"></div></div><div class="cta"><button class="btn" onclick="pn('pf')">Edit Profile</button><button class="btn o" onclick="prevList()">Preview Listing</button></div></div>`;
+  return `${head}<div class="st">${S.map(x => `<div class="card pad">${I(x[2])}<span><small>${x[0]}</small><b>${x[1]}</b></span></div>`).join("")}</div>
+<div class="card pad" style="margin-bottom:14px"><div class="sh" style="margin:0"><b>${c ? "Upcoming Bookings" : "Upcoming Jobs"}</b><a onclick="pn('bk')">View all</a></div>${act.slice(0, 3).map(b => `<div class="bk">${I("clock")}<span><b>${esc(b.sname)} \u2013 ${esc(c ? b.lname : b.cname)}</b><div class="m">${dt(b.scheduled_at)}</div></span><i class="cf" style="font-style:normal">${cap(b.status)}</i></div>`).join("") || '<p class="m" style="margin-top:10px">Nothing upcoming yet.</p>'}</div>
+<div class="g2" style="grid-template-columns:1fr 1fr"><div class="card pad"><b>Quick Actions</b>${c ? `<a class="qa" onclick="go('browse')">Browse Tradespeople</a>` : `<a class="qa" onclick="prevList()">Preview Listing</a>`}<a class="qa" onclick="pn('msgs')">Open Messages</a></div><div class="card pad"><b>Recent Messages</b>${CVS.slice(0, 2).map(x => `<div class="bk" style="cursor:pointer" onclick="ci=${CVS.indexOf(x)};pn('msgs')">${av({photo: x.photo, c: "#2a3a5a", s: "#b87d52", id: 5})}<span><b>${esc(x.name)}</b><div class="m">${esc(x.m.length ? x.m[x.m.length - 1].body : "No messages yet")}</div></span><small class="m">${when(x.last)}</small></div>`).join("") || '<p class="m" style="margin-top:10px">No messages yet.</p>'}</div></div>`;
+};
+
+/* ---- buttons on a public listing: Message and Book / Request a Quote ---- */
+const _pub = window.pub;
+window.pub = function (t) {
+  let h = _pub(t);
+  if (t.owner) h = h.replace("onclick=\"need('msgs')\"", "onclick=\"startChat('" + t.owner + "')\"");
+  if (t.lid) h = h.replace(/<button class="btn o">(Request a Quote|Book Service)<\/button>/, '<button class="btn o" onclick="openBook(\'' + t.lid + '\')">$1</button>');
+  return h;
+};
+
+/* =====================================================================
+   PRODUCTION UPDATE: no demo data, real pages, admin, saved, contact, reports
+   ===================================================================== */
+let ADM = null, FAVDB = new Set(), lastFav = "";
+const ESC_ = esc;
+
+/* ---- home page: top listings (real only) ---- */
+window.top_ = function () {
+  const idx = P.map((p, i) => i).filter(i => P[i].real).sort((a, b) => (+P[b].r || 0) - (+P[a].r || 0)).slice(0, 4);
+  $("top").innerHTML = idx.length ? idx.map(i => { const p = P[i];
+    return `<div class="card tp" onclick="show(${i})">${av(p)}<div><b>${esc(p.n)}</b><div class="rt">${p.r == "New" ? "New" : "\u2605 " + p.r} <span>(${p.j} reviews)</span></div><div class="m">${esc(p.t)}</div><div class="m">${esc(p.l)}</div>${p.p ? `<span class="tag">From US$${p.p}</span>` : ""}<br>${p.tg.map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>${hb(p)}</div>`; }).join("")
+    : `<div class="card pad" style="grid-column:1/-1;text-align:center"><b>No tradespeople yet</b><p class="m" style="margin:6px 0 12px">Be the first to create a professional profile.</p><button class="btn" onclick="openAuth('signup')">Create a profile</button></div>`;
+};
+
+/* ---- saved tradespeople (stored in the database) ---- */
+async function loadFavs() {
+  fav.clear(); FAVDB = new Set();
+  if (!ME_ID || role != "c") return;
+  try {
+    const rows = await ck(SB.from("favourites").select("listing_id").eq("customer_id", ME_ID));
+    FAVDB = new Set((rows || []).map(r => r.listing_id));
+    P.forEach((p, i) => { if (p.real && FAVDB.has(p.tt.lid)) fav.add(i); });
+  } catch (e) {}
+  lastFav = [...fav].join();
+}
+async function syncFavs() {
+  if (!ME_ID || role != "c") return;
+  const now = new Set(); fav.forEach(i => { const p = P[i]; if (p && p.real) now.add(p.tt.lid); });
+  for (const l of now) if (!FAVDB.has(l)) { try { await ck(SB.from("favourites").insert({customer_id: ME_ID, listing_id: l})); FAVDB.add(l); } catch (e) {} }
+  for (const l of [...FAVDB]) if (!now.has(l)) { try { await ck(SB.from("favourites").delete().eq("customer_id", ME_ID).eq("listing_id", l)); FAVDB.delete(l); } catch (e) {} }
+}
+function favCheck() {
+  const sig = [...fav].join(); if (sig === lastFav) return; lastFav = sig;
+  if (!sig) { syncFavs(); return; }
+  if (!U) { fav.clear(); lastFav = ""; _draw(); top_(); openAuth("login"); return; }
+  if (role != "c") { fav.clear(); lastFav = ""; _draw(); top_(); alert("Only customer accounts can save tradespeople."); return; }
+  syncFavs();
+}
+const _draw = window.draw;
+window.draw = function () { _draw(); favCheck(); };
+window.svp = function () {
+  const rows = [...fav].map(i => P[i]).filter(p => p && p.real);
+  return `<h2>Saved Tradespeople</h2><div class="card pad" style="margin-top:14px">${rows.length ? rows.map(p => `<div class="bk" style="cursor:pointer" onclick="show(${P.indexOf(p)})">${av(p)}<span><b>${esc(p.n)}</b><div class="m">${esc(p.t)} \u2022 ${esc(p.l)}</div></span><a class="vf">View</a></div>`).join("") : '<p class="m">Tap the heart on a tradesperson to save them here.</p>'}</div>`;
+};
+
+/* ---- tradesperson pages: services, availability, gallery ---- */
+window.editStep = n => { PF.done = false; PF.step = n; pn("pf"); };
+const EB = n => `<button class="btn" style="margin-top:14px" onclick="editStep(${n})">Edit</button>`;
+window.msp = () => { const t = PF.t; return `<h2>Services and Pricing</h2><div class="card pad" style="margin-top:14px">${(t.svc || []).filter(s => s.n).map(s => `<div class="sv"><span>${esc(s.n)}<small>${esc(s.d)}</small></span><b>${s.m == "qt" ? "Quote" : "US$"+ esc(s.p)}</b></div>`).join("") || '<p class="m">No services yet.</p>'}${EB(2)}</div>`; };
+window.avp = () => { const t = PF.t; return `<h2>Availability</h2><div class="card pad" style="margin-top:14px"><div class="ir">${I("clock")}<span>${esc((t.days || []).join(", ") || "No days set")}<small>${esc(t.open)} \u2013 ${esc(t.close)} \u2022 ${esc(t.avail)}</small></span></div>${EB(3)}</div>`; };
+window.wgp = () => { const t = PF.t; return `<h2>Work Gallery</h2><div class="card pad" style="margin-top:14px">${(t.gal || []).length ? t.gal.map(u => thumb(u)).join("") : '<p class="m">No photos yet. Add photos of your best work.</p>'}${EB(5)}</div>`; };
+window.hlp = () => `<h2>Help and Support</h2><div class="card pad" style="margin-top:14px">${[["How do I book a tradesperson?", "Open their profile and tap Book Service or Request a Quote. They will confirm or decline."], ["How do I message someone?", "Open a profile and tap Message. Replies appear under Messages."], ["Why can't I find my listing?", "Listings appear in Search after TradeLink approves them. You can preview yours from your dashboard."], ["What does Verified mean?", "Verified is added by TradeLink only after we check a tradesperson's details. It is never automatic."], ["How do I leave a review?", "After a booking is marked completed, tap Leave a review under My Bookings."]].map(x => `<p><b>${x[0]}</b></p><p class="m" style="margin:4px 0 14px">${x[1]}</p>`).join("")}<button class="btn" onclick="go('contact')">Contact us</button></div>`;
+
+/* ---- admin: approve, request changes, suspend, verify ---- */
+async function loadAdmin() {
+  const ls = await ck(SB.from("trade_listings").select("*").order("created_at", {ascending: false}));
+  const ids = [...new Set((ls || []).map(l => l.owner_id))];
+  const ps = ids.length ? await ck(SB.from("profiles").select("id,full_name").in("id", ids)) : [];
+  let ms = [], rp = [];
+  try { ms = await ck(SB.from("contact_messages").select("*").order("created_at", {ascending: false}).limit(20)); } catch (e) {}
+  try { rp = await ck(SB.from("reports").select("*").order("created_at", {ascending: false}).limit(20)); } catch (e) {}
+  ADM = {ls: ls || [], ps: ps || [], ms: ms || [], rp: rp || []};
+}
+window.adp = function () {
+  if (!ME_ADMIN) return '<div class="card pad">This page is for TradeLink admins only.</div>';
+  if (!ADM) { loadAdmin().then(() => pn("ad")).catch(e => { ADM = {ls: [], ps: [], ms: [], rp: []}; pn("ad"); alert("Could not load admin data: " + (e.message || e)); }); return '<div class="card pad" style="text-align:center">Loading\u2026</div>'; }
+  const nm = id => { const p = ADM.ps.find(x => x.id == id); return p ? p.full_name : "Unknown"; };
+  const row = l => `<div class="bk" style="flex-wrap:wrap"><span><b>${esc(l.business_name || nm(l.owner_id))}</b> <span class="tag">${LBL[l.status]}</span>${l.verified ? '<span class="tag" style="color:var(--grn)">Verified</span>' : ""}<div class="m">${esc(l.main_trade)} \u2022 ${esc(l.city || "")} \u2022 ${esc(nm(l.owner_id))}</div><div class="m">${esc((l.bio || "").slice(0, 140))}</div>${l.admin_note ? `<div class="m"><b>Note:</b> ${esc(l.admin_note)}</div>` : ""}</span><span style="display:flex;gap:10px;flex-wrap:wrap"><a class="vf" onclick="admSet('${l.id}','approved')">Approve</a><a class="vf" onclick="admNote('${l.id}')">Request changes</a><a class="vf" onclick="admSet('${l.id}','suspended')">Suspend</a><a class="vf" onclick="admVer('${l.id}',${!l.verified})">${l.verified ? "Remove Verified" : "Mark Verified"}</a></span></div>`;
+  const todo = ADM.ls.filter(l => l.status == "pending_review" || l.status == "changes_requested"), rest = ADM.ls.filter(l => !todo.includes(l));
+  return `<h2>Admin</h2><div class="card pad" style="margin-top:14px"><b>Waiting for review (${todo.length})</b>${todo.map(row).join("") || '<p class="m">Nothing waiting.</p>'}</div><div class="card pad" style="margin-top:14px"><b>All other listings (${rest.length})</b>${rest.map(row).join("") || '<p class="m">None yet.</p>'}</div><div class="card pad" style="margin-top:14px"><b>Reports (${ADM.rp.length})</b>${ADM.rp.map(r => `<div class="bk"><span><div class="m">${esc(r.reason)}</div><div class="m">Listing: ${esc(r.listing_id)}</div></span></div>`).join("") || '<p class="m">No reports.</p>'}</div><div class="card pad" style="margin-top:14px"><b>Contact messages (${ADM.ms.length})</b>${ADM.ms.map(m => `<div class="bk"><span><b>${esc(m.name)}</b> \u2022 ${esc(m.email)}<div class="m">${esc(m.message)}</div></span></div>`).join("") || '<p class="m">No messages.</p>'}</div>`;
+};
+async function admUpd(id, patch) { try { await ck(SB.from("trade_listings").update(patch).eq("id", id)); ADM = null; await loadListings(); draw(); top_(); pn("ad"); } catch (e) { alert("Could not update: " + (e.message || e)); } }
+window.admSet = (id, s) => admUpd(id, {status: s});
+window.admNote = id => { const n = prompt("Tell the tradesperson what to change:"); if (n == null || !n.trim()) return; return admUpd(id, {status: "changes_requested", admin_note: n.trim()}); };
+window.admVer = (id, v) => { if (v && !confirm("Only mark Verified after you have checked their qualifications or ID. Continue?")) return; return admUpd(id, {verified: v}); };
+
+/* ---- passwords ---- */
+window.forgotPw = async function () {
+  const e = $("em").value.trim(), er = $("er");
+  if (!/^\S+@\S+\.\S+$/.test(e)) { er.style.color = ""; er.textContent = "Type your email above first, then tap Forgot password."; return; }
+  try { const r = await SB.auth.resetPasswordForEmail(e, {redirectTo: location.origin + location.pathname}); if (r.error) throw r.error; er.style.color = "var(--grn)"; er.textContent = "If that email has an account, a reset link is on its way."; }
+  catch (x) { er.style.color = ""; er.textContent = x.message || String(x); }
+};
+window.chgPw = async function () {
+  const p = prompt("New password (6 or more characters)"); if (!p) return;
+  if (p.length < 6) { alert("Use at least 6 characters."); return; }
+  const r = await SB.auth.updateUser({password: p}); alert(r.error ? r.error.message : "Password updated.");
+};
+SB.auth.onAuthStateChange(ev => { if (ev === "PASSWORD_RECOVERY") setTimeout(() => window.chgPw(), 300); });
+
+/* ---- contact form and reporting ---- */
+window.sendMsg = async function () {
+  const n = $("cn").value.trim(), e = $("ce").value.trim(), m = $("cm").value.trim(), r = $("cr"); r.style.color = "";
+  if (!n || !/^\S+@\S+\.\S+$/.test(e) || m.length < 5) { r.textContent = "Enter your name, a valid email and a message."; return; }
+  try { await ck(SB.from("contact_messages").insert({name: n, email: e, message: m})); r.style.color = "var(--grn)"; r.textContent = "Thanks. We got your message and will reply by email."; $("cn").value = $("ce").value = $("cm").value = ""; }
+  catch (x) { r.textContent = "Could not send your message. Please try again."; }
+};
+window.reportL = async function (lid) {
+  if (!U) { openAuth("login"); return; }
+  const r = prompt("What is wrong with this listing?"); if (!r || r.trim().length < 3) return;
+  try { await ck(SB.from("reports").insert({listing_id: lid, reason: r.trim()})); alert("Thank you. We will look into it."); } catch (e) { alert("Could not send the report: " + (e.message || e)); }
+};
+const _pub2 = window.pub;
+window.pub = function (t) { let h = _pub2(t); if (t.lid) h += '<p style="text-align:center;margin:18px 0"><a class="vf" onclick="reportL(\'' + t.lid + '\')">Report this listing</a></p>'; return h; };
+
+/* ---- extra pages shown in the dashboard ---- */
+const PANES = {bk: window.bkp, rv: window.rvp, sv: window.svp, ms: window.msp, av: window.avp, wg: window.wgp, hp: window.hlp, ad: window.adp};
+
+</script>
+<script src="premium.js"></script>
+<script src="countries.js"></script>
+<script src="phone-country.js"></script>
+<script src="nationality.js"></script>
+<script src="language.js"></script>
+<script src="security.js"></script>
+<script src="modes.js"></script>
+<script src="documents.js"></script>
+<script src="search-ai.js"></script>
+<script src="professional.js"></script>
+</body></html>

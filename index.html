@@ -313,7 +313,7 @@ if(s==0)return !t.name?"Enter your full name.":!t.trade?"Choose a main trade.":t
 if(s==1)return !t.bio||t.bio.length<30?"Write a description of at least 30 characters.":t.exp===undefined||t.exp===""?"Enter your years of experience.":"";
 if(s==2)return !t.svc.length?"Add at least one service.":t.svc.some(v=>!v.n||(v.m!="qt"&&!(+v.p>0)))?"Each service needs a name and a price (unless quote required).":"";
 if(s==3)return !t.days.length?"Select at least one working day.":!t.open||!t.close?"Set opening and closing times.":"";
-if(s==4)return !t.city||!t.area?"Enter your city and main service location.":"";
+if(s==4)return !t.city||!t.area?"Tell us where you are based.":"";
 return ""}
 function nx(d){const s=PF.step||0;if(d>0){const m=vals(s);if(m){$("verr").textContent=m;return}}PF.step=s+d;sv_();pn("pf")}
 function dr(){PF.status=PF.status||"";busy(()=>{PF.flash="Draft saved in this browser (prototype only).";sv_();pn("pf")})}
@@ -406,7 +406,7 @@ async function loadMe() {
   PF = {role: r, step: 0, flash: "", c: {name: pr.full_name || "", disp: pr.display_name || "", email: user.email || "", phone: pp.phone || "", loc: pr.location || "", bio: pr.bio || "", photo: pr.avatar_url || "", notif: {m: pp.notify_messages === false ? 0 : 1, b: pp.notify_bookings === false ? 0 : 1}, vis: pr.visibility, saved: pr.location ? 1 : 0}};
   ens();
   if (r == "c") { PF.done = !!pr.location; return true; }
-  PF.t.name = pr.full_name || ""; PF.t.photo = pr.avatar_url || ""; PF.t.vis = pr.visibility;
+  PF.t.name = pr.full_name || ""; PF.t.photo = pr.avatar_url || ""; PF.t.vis = "public";   // tradesperson listings are always public
   const l = await ck(SB.from("trade_listings").select("*").eq("owner_id", user.id).maybeSingle());
   if (!l) { PF.done = false; return true; }
   const sv = await ck(SB.from("services").select("*").eq("listing_id", l.id).order("sort_order"));
@@ -455,7 +455,7 @@ async function saveCustomer() {
 }
 async function saveListing(status) {
   const t = PF.t, avatar = await upload("avatars", t.photo, "avatar"), logo = await upload("avatars", t.logo, "logo");
-  await ck(SB.from("profiles").update({full_name: t.name, avatar_url: avatar, visibility: t.vis || "public"}).eq("id", ME_ID));
+  await ck(SB.from("profiles").update({full_name: t.name, avatar_url: avatar}).eq("id", ME_ID));
   const row = {owner_id: ME_ID, business_name: t.biz || null, headline: t.head || null, main_trade: t.trade || "Other", other_trade: t.trade == "Other" ? (t.other || null) : null, extra_trades: t.extra || [], bio: t.bio || null, years_experience: t.exp === "" || t.exp == null ? null : +t.exp, skills: t.skills || null, qualifications: t.qual || null, licences: t.lic || null, city: t.city || null, main_area: t.area || null, areas_served: t.areas || null, travel_km: t.dist ? +t.dist : null, working_days: t.days || [], open_time: t.open || null, close_time: t.close || null, availability_status: (t.avail || "Available").toLowerCase(), appointment_notes: t.appt || null, contact_method: (t.contact || "Message").toLowerCase(), public_phone: t.phone || null, accepts_messages: !!t.msgs, accepts_bookings: !!t.bk, logo_url: logo, status};
   const l = await ck(SB.from("trade_listings").upsert(row, {onConflict: "owner_id"}).select().single());
   await ck(SB.from("services").delete().eq("listing_id", l.id));
@@ -790,6 +790,8 @@ const PANES = {bk: window.bkp, rv: window.rvp, sv: window.svp, ms: window.msp, a
 <script src="currency.js"></script>
 <script src="location.js"></script>
 <script src="auth.js"></script>
+<script src="payments.js"></script>
+<script src="fixes.js"></script>
 <script>
 /* Fixes the missing Home icon (the page's Home section and the icon shared the name "home") */
 (function () {

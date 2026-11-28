@@ -2,11 +2,12 @@
    Run profile-extras.sql once to remember each person's choice. Works with or without it.
 
    WEBSITE LANGUAGE
-   - English and Tok Pisin use the built-in word lists below (DICTS). Tok Pisin should be checked by a
-     native speaker before launch. To add a language (for example Hiri Motu), copy the Tok Pisin block,
-     rename it, translate the right-hand side, and add it to LANGS.
-   - Other languages are translated on the device by desktop Chrome's built-in translator when it is
-     available. Only the fixed menu and button words are translated, never people's names or posts.
+   - English, Tok Pisin, French and Spanish use the built-in word lists below (DICTS). They appear instantly.
+     Tok Pisin should be checked by a native speaker before launch. To add another instant language, copy
+     the French block, rename it, translate the right-hand side, and add it to LANGS.
+   - Other languages are translated once through the translate-ui function (or the free MyMemory service)
+     and then saved on the device, so they are instant the next time.
+     Only the fixed menu and button words are translated, never people's names or posts.
 
    TRANSLATE A POST
    - A "Translate" link appears under messages, a tradesperson's About text and service descriptions.
@@ -14,7 +15,7 @@
      The free service has a daily limit, so for a busy site we should move this to a paid translation
      service later. */
 (function () {
-  const LANGS = [["en", "English"], ["tpi", "Tok Pisin"], ["ho", "Hiri Motu"], ["fr", "Fran\u00e7ais"], ["es", "Espa\u00f1ol"], ["pt", "Portugu\u00eas"], ["de", "Deutsch"], ["id", "Bahasa Indonesia"], ["tl", "Filipino"], ["zh", "\u4e2d\u6587"], ["ja", "\u65e5\u672c\u8a9e"], ["ko", "\ud55c\uad6d\uc5b4"], ["hi", "\u0939\u093f\u0928\u094d\u0926\u0940"]];
+  const LANGS = [["en", "English"], ["tpi", "Tok Pisin"], ["fr", "Fran\u00e7ais"], ["es", "Espa\u00f1ol"], ["pt", "Portugu\u00eas"], ["de", "Deutsch"], ["id", "Bahasa Indonesia"], ["tl", "Filipino"], ["zh", "\u4e2d\u6587"], ["ja", "\u65e5\u672c\u8a9e"], ["ko", "\ud55c\uad6d\uc5b4"], ["hi", "\u0939\u093f\u0928\u094d\u0926\u0940"]];
   const DICTS = {
     tpi: {
       "Home": "Hom", "Browse": "Painim", "About": "Baut long mipela", "Contact": "Toktok wantaim mipela",
@@ -42,7 +43,155 @@
       "Mark completed": "Makim pinis", "Terms": "Lo", "Privacy": "Haid", "Terms of Service": "Lo bilong wok",
       "Privacy Policy": "Lo bilong haitim save", "Contact us": "Toktok wantaim mipela", "About TradeLink": "Baut long TradeLink",
       "Report this listing": "Tokim mipela long dispela lista", "Type a message": "Raitim wanpela tok",
-      "e.g. plumber, electrician, carpenter...": "olsem: plamba, elektrisen, kapenta...", "Your location": "Ples bilong yu"
+      "e.g. plumber, electrician, carpenter...": "olsem: plamba, elektrisen, kapenta...", "Your location": "Ples bilong yu", "Account": "Akaun"
+    },
+    fr: {
+      "Home": "Accueil",
+      "Browse": "Parcourir",
+      "About": "À propos",
+      "Contact": "Contact",
+      "Log in": "Se connecter",
+      "Sign up": "S'inscrire",
+      "My Dashboard": "Mon tableau de bord",
+      "Admin": "Admin",
+      "Find trusted tradespeople near you": "Trouvez des artisans de confiance près de chez vous",
+      "Whether it's a quick repair or a big project, connect with skilled tradespeople in your area.": "Pour une petite réparation ou un gros projet, contactez des artisans qualifiés de votre région.",
+      "Browse Tradespeople": "Parcourir les artisans",
+      "How It Works": "Comment ça marche",
+      "Top Rated Tradespeople": "Artisans les mieux notés",
+      "View all →": "Voir tout →",
+      "Reviewed Listings": "Annonces vérifiées",
+      "Every tradesperson listing is reviewed before it goes public.": "Chaque annonce d'artisan est vérifiée avant d'être publiée.",
+      "Real Reviews": "Vrais avis",
+      "See what other customers have to say.": "Découvrez ce que disent les autres clients.",
+      "Local & Reliable": "Local et fiable",
+      "Find help in your area, when you need it.": "Trouvez de l'aide dans votre région, quand vous en avez besoin.",
+      "Find the right tradesperson": "Trouvez le bon artisan",
+      "Search": "Rechercher",
+      "View Profile": "Voir le profil",
+      "Message": "Message",
+      "Book Service": "Réserver",
+      "Request a Quote": "Demander un devis",
+      "Welcome back": "Bon retour",
+      "Create an account": "Créer un compte",
+      "Create Account": "Créer le compte",
+      "Customer": "Client",
+      "Tradesperson": "Artisan",
+      "Full name": "Nom complet",
+      "Email address": "Adresse e-mail",
+      "Password": "Mot de passe",
+      "Confirm password": "Confirmer le mot de passe",
+      "Remember me": "Se souvenir de moi",
+      "Forgot password?": "Mot de passe oublié ?",
+      "Dashboard": "Tableau de bord",
+      "Messages": "Messages",
+      "Profile": "Profil",
+      "Log Out": "Se déconnecter",
+      "My Bookings": "Mes réservations",
+      "Saved Tradespeople": "Artisans enregistrés",
+      "My Reviews": "Mes avis",
+      "Help and Support": "Aide et assistance",
+      "Services and Pricing": "Services et tarifs",
+      "Availability": "Disponibilité",
+      "Work Gallery": "Galerie de travaux",
+      "Premium": "Premium",
+      "Save Changes": "Enregistrer les modifications",
+      "Cancel": "Annuler",
+      "Continue": "Continuer",
+      "Previous": "Précédent",
+      "Save Draft": "Enregistrer le brouillon",
+      "Submit Profile": "Envoyer le profil",
+      "Send Message": "Envoyer le message",
+      "Send request": "Envoyer la demande",
+      "Leave a review": "Laisser un avis",
+      "Confirm": "Confirmer",
+      "Decline": "Refuser",
+      "Mark completed": "Marquer comme terminé",
+      "Terms": "Conditions",
+      "Privacy": "Confidentialité",
+      "Terms of Service": "Conditions d'utilisation",
+      "Privacy Policy": "Politique de confidentialité",
+      "Contact us": "Nous contacter",
+      "About TradeLink": "À propos de TradeLink",
+      "Report this listing": "Signaler cette annonce",
+      "Type a message": "Écrivez un message",
+      "e.g. plumber, electrician, carpenter...": "p. ex. plombier, électricien, menuisier...",
+      "Your location": "Votre emplacement",
+      "Account": "Compte"
+    },
+    es: {
+      "Home": "Inicio",
+      "Browse": "Explorar",
+      "About": "Acerca de",
+      "Contact": "Contacto",
+      "Log in": "Iniciar sesión",
+      "Sign up": "Registrarse",
+      "My Dashboard": "Mi panel",
+      "Admin": "Admin",
+      "Find trusted tradespeople near you": "Encuentra profesionales de confianza cerca de ti",
+      "Whether it's a quick repair or a big project, connect with skilled tradespeople in your area.": "Ya sea una reparación rápida o un gran proyecto, conecta con profesionales cualificados de tu zona.",
+      "Browse Tradespeople": "Explorar profesionales",
+      "How It Works": "Cómo funciona",
+      "Top Rated Tradespeople": "Profesionales mejor valorados",
+      "View all →": "Ver todo →",
+      "Reviewed Listings": "Anuncios revisados",
+      "Every tradesperson listing is reviewed before it goes public.": "Cada anuncio se revisa antes de publicarse.",
+      "Real Reviews": "Opiniones reales",
+      "See what other customers have to say.": "Mira lo que dicen otros clientes.",
+      "Local & Reliable": "Local y fiable",
+      "Find help in your area, when you need it.": "Encuentra ayuda en tu zona, cuando la necesites.",
+      "Find the right tradesperson": "Encuentra al profesional adecuado",
+      "Search": "Buscar",
+      "View Profile": "Ver perfil",
+      "Message": "Mensaje",
+      "Book Service": "Reservar servicio",
+      "Request a Quote": "Pedir presupuesto",
+      "Welcome back": "Bienvenido de nuevo",
+      "Create an account": "Crear una cuenta",
+      "Create Account": "Crear cuenta",
+      "Customer": "Cliente",
+      "Tradesperson": "Profesional",
+      "Full name": "Nombre completo",
+      "Email address": "Correo electrónico",
+      "Password": "Contraseña",
+      "Confirm password": "Confirmar contraseña",
+      "Remember me": "Recordarme",
+      "Forgot password?": "¿Olvidaste tu contraseña?",
+      "Dashboard": "Panel",
+      "Messages": "Mensajes",
+      "Profile": "Perfil",
+      "Log Out": "Cerrar sesión",
+      "My Bookings": "Mis reservas",
+      "Saved Tradespeople": "Profesionales guardados",
+      "My Reviews": "Mis opiniones",
+      "Help and Support": "Ayuda y soporte",
+      "Services and Pricing": "Servicios y precios",
+      "Availability": "Disponibilidad",
+      "Work Gallery": "Galería de trabajos",
+      "Premium": "Premium",
+      "Save Changes": "Guardar cambios",
+      "Cancel": "Cancelar",
+      "Continue": "Continuar",
+      "Previous": "Anterior",
+      "Save Draft": "Guardar borrador",
+      "Submit Profile": "Enviar perfil",
+      "Send Message": "Enviar mensaje",
+      "Send request": "Enviar solicitud",
+      "Leave a review": "Dejar una opinión",
+      "Confirm": "Confirmar",
+      "Decline": "Rechazar",
+      "Mark completed": "Marcar como completado",
+      "Terms": "Términos",
+      "Privacy": "Privacidad",
+      "Terms of Service": "Términos del servicio",
+      "Privacy Policy": "Política de privacidad",
+      "Contact us": "Contáctanos",
+      "About TradeLink": "Acerca de TradeLink",
+      "Report this listing": "Denunciar este anuncio",
+      "Type a message": "Escribe un mensaje",
+      "e.g. plumber, electrician, carpenter...": "p. ej. fontanero, electricista, carpintero...",
+      "Your location": "Tu ubicación",
+      "Account": "Cuenta"
     }
   };
   const UI_KEYS = Object.keys(DICTS.tpi);          // the fixed words we are allowed to translate
@@ -70,7 +219,7 @@
      Order: (1) built-in word list, (2) this device's saved translations, (3) Chrome's translator if it has one,
      (4) the translate-ui function (AI translation, shared cache), (5) the free MyMemory service.
      Everything that is translated is saved on the device, so each sentence is only translated once. */
-  const ENAME = {tpi: "Tok Pisin", ho: "Hiri Motu", fr: "French", es: "Spanish", pt: "Portuguese", de: "German", id: "Indonesian", tl: "Filipino", zh: "Simplified Chinese", ja: "Japanese", ko: "Korean", hi: "Hindi"};
+  const ENAME = {tpi: "Tok Pisin", fr: "French", es: "Spanish", pt: "Portuguese", de: "German", id: "Indonesian", tl: "Filipino", zh: "Simplified Chinese", ja: "Japanese", ko: "Korean", hi: "Hindi"};
   const TX = {};
   const txLoad = c => { if (!TX[c]) { try { TX[c] = JSON.parse(localStorage.getItem("tl_tx_" + c) || "{}"); } catch (e) { TX[c] = {}; } } return TX[c]; };
   const txSave = c => { try { localStorage.setItem("tl_tx_" + c, JSON.stringify(TX[c] || {})); } catch (e) {} };
@@ -86,19 +235,19 @@
         } catch (e) {}
       }
     }
-    await Promise.all([worker(), worker(), worker()]);
+    await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
     return out;
   }
   async function translateBatch(strings, code) {
-    const out = {};
-    for (let i = 0; i < strings.length; i += 40) {
-      const part = strings.slice(i, i + 40);
+    const out = {}, parts = [];
+    for (let i = 0; i < strings.length; i += 40) parts.push(strings.slice(i, i + 40));
+    await Promise.all(parts.map(async part => {            // all batches at the same time
       try {
         const r = await SB.functions.invoke("translate-ui", {body: {lang: ENAME[code] || code, strings: part}});
-        if (!r.error && r.data && r.data.map) { Object.assign(out, r.data.map); continue; }
+        if (!r.error && r.data && r.data.map) { Object.assign(out, r.data.map); return; }
       } catch (e) {}
       Object.assign(out, await myMemory(part, code));
-    }
+    }));
     return out;
   }
   async function buildServer(code) {
@@ -147,7 +296,7 @@
     document.querySelectorAll(".langsel").forEach(s => s.value = code);
     if (code !== "en" && !MAPS[code]) {
       note("Translating the page\u2026");
-      MAPS[code] = DICTS[code] || await buildMT(code) || await buildServer(code);
+      MAPS[code] = DICTS[code] || await buildServer(code);
       if (!MAPS[code]) { note("We could not translate the page just now. Please check your internet and try again."); delete MAPS[code]; }
     }
     apply();
@@ -207,3 +356,4 @@
   });
   if (lang !== "en") setLang(lang, false);
 })();
+

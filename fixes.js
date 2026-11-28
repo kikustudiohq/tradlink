@@ -234,4 +234,216 @@ const GMAPS_KEY = "";
   add(["Profile picture"], "Can you add a profile photo? (optional)", "A friendly photo helps tradespeople trust your messages. You can skip this.");
   add(["Display name (optional)", "Preferred name (optional)"], "What name should tradespeople see? (optional)", "Leave this empty to use your full name. You can use a first name only.");
   add(["Phone number (optional)", "Phone number", "Telephone number"], "What is your phone number?", "Choose your country code, then type your number without the first 0, for example 71234567. Only you and TradeLink can see it.");
-  add(["General location (city or suburb)", "City or suburb of residence"], "Which suburb or town do you live in?
+  add(["General location (city or suburb)", "City or suburb of residence"], "Which suburb or town do you live in?", "Type only your suburb or town, never your street address.");
+  add(["Short biography (optional)", "About you (optional)"], "Is there anything you would like tradespeople to know about you? (optional)", "A short note, for example: I rent a house in Gerehu and need a plumber on weekends.");
+  add(["Notifications"], "Which notifications do you want?", "Tick the updates you want to receive. You can change this later.");
+
+  function firstText(el) {
+    for (const n of el.childNodes) {
+      if (n.nodeType === 3 && n.nodeValue.trim()) return n;
+      if (n.nodeType === 1 && n.nodeName !== "INPUT" && n.nodeName !== "BUTTON") return null;
+    }
+    return null;
+  }
+  function addInfo(l, n, tip) {
+    const b = document.createElement("button"); b.type = "button"; b.className = "tlinfo"; b.textContent = "i";
+    b.setAttribute("aria-label", "Explain this question"); b.setAttribute("aria-expanded", "false");
+    const box = document.createElement("div"); box.className = "tlhint"; box.hidden = true; box.textContent = tip;
+    b.onclick = ev => { ev.preventDefault(); ev.stopPropagation(); box.hidden = !box.hidden; b.setAttribute("aria-expanded", String(!box.hidden)); };
+    n.parentNode.insertBefore(b, n.nextSibling); b.insertAdjacentElement("afterend", box);
+  }
+  function decorate() {
+    qa("#dash .dm label.fl, #dash .dm div.fl").forEach(l => {
+      if (l.dataset.tlq) return;
+      const n = firstText(l); if (!n) return;
+      const e = CAT[norm(n.nodeValue)];
+      if (!e) { if (/\*\s*$/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/\s*\*\s*$/, ""); return; }
+      l.dataset.tlq = "1"; n.nodeValue = (/^\s/.test(n.nodeValue) ? " " : "") + e.q; addInfo(l, n, e.tip);
+    });
+    const dm = q1("#dash .dm");
+    if (dm && dm.classList.contains("pro") && !q1("#tlreq")) {
+      const card = q1(".card.pad", dm);
+      if (card && card.querySelector("label.fl")) card.insertAdjacentHTML("afterbegin", '<p id="tlreq" class="m" style="margin-bottom:10px">Please answer every question unless it says (optional). If you are not sure what a question means, tap the <b class="tlinfo" style="display:inline-grid;margin:0 2px">i</b> next to it.</p>');
+    }
+  }
+
+  /* ---- 3. questions that were repeated or unnecessary ---- */
+  function known(sel, val, label) {
+    const inp = q1("#dash .dm " + sel); if (!inp) return;
+    const lab = inp.closest("label"); if (!lab || lab.dataset.tlknown) return;
+    const v = val(); if (!v) return;
+    lab.dataset.tlknown = "1"; lab.style.display = "none";
+    const line = document.createElement("div"); line.className = "m"; line.style.margin = "12px 0 4px";
+    line.innerHTML = label + ": <b>" + esc(v) + "</b> <a class=\"vf\" role=\"button\" tabindex=\"0\">Change</a>";
+    line.querySelector("a").onclick = () => { lab.style.display = ""; line.remove(); };
+    lab.insertAdjacentElement("beforebegin", line);
+  }
+  function trim() {
+    if (typeof PF === "undefined" || !PF.t) return;
+    known(`input[oninput*="setF('t','name'"]`, () => PF.t.name, "Name you signed up with");
+    known(`input[oninput*="setF('c','name'"]`, () => PF.c.name, "Name you signed up with");
+    known(`input[oninput*="setF('c','email'"]`, () => PF.c.email, "Email you log in with");
+    qa(`#dash .dm select[onchange*="'contact'"]`).forEach(s => { const l = s.closest("label"); if (l) l.style.display = "none"; });   // contact method: asked by the two tick boxes
+    qa("#dash .dm h3").forEach(h => { if (h.textContent.trim() === "Profile visibility" && role === "t") { const c = h.closest(".card"); if (c) c.remove(); } });   // tradespeople are always public
+  }
+
+  /* ---- 4. location: one question, a map and optional live location ---- */
+  const _tstep = window.tstep;
+  window.tstep = function (s) {
+    if (s !== 4) return _tstep(s);
+    return fld("t", "Where are you based? (suburb, town or city)", "area", {r: 1}) + fld("t", "Do you also work in other areas? (optional)", "areas") +
+      `<div class="fl" style="margin-top:16px">Where exactly do you work from? (optional)</div><div id="tlmap" class="tlmap" role="application" aria-label="Map"></div>
+<div class="tlmapbar"><button type="button" class="btn o" onclick="tlUseHere()">Use my current location</button><button type="button" class="btn o" onclick="tlClearPin()">Remove pin</button></div>
+<div class="m" id="tlpinmsg">${PF.t.lat ? "Your pin is set. Drag it to move it." : "Tap the map to place a pin, or use your current location."}</div>
+<label class="fl" style="display:flex;gap:8px;align-items:flex-start;margin-top:14px"><input type="checkbox" ${PF.t.live ? "checked" : ""} onchange="tlLiveToggle(this.checked)"> Show customers when I am active (live location)</label>`;
+  };
+  const _vals = window.vals;
+  window.vals = function (s) { if (s === 4 && PF.t && PF.t.area && !PF.t.city) PF.t.city = PF.t.area; return _vals(s); };
+  const pmsg = t => { const m = $("tlpinmsg"); if (m) m.textContent = t; };
+  let MAPI = null;
+  const loadScript = (src, cb) => new Promise((ok, no) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = no; if (cb) window[cb] = ok; document.head.appendChild(s); });
+  async function mapLib() {
+    if (GMAPS_KEY) {
+      if (window.google && google.maps) return "g";
+      try { await new Promise((ok, no) => { window.__tlg = ok; const s = document.createElement("script"); s.src = "https://maps.googleapis.com/maps/api/js?key=" + encodeURIComponent(GMAPS_KEY) + "&callback=__tlg"; s.onerror = no; document.head.appendChild(s); }); return "g"; } catch (e) { /* fall back to OpenStreetMap */ }
+    }
+    if (!window.L) {
+      const css = document.createElement("link"); css.rel = "stylesheet"; css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"; document.head.appendChild(css);
+      await loadScript("https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js");
+    }
+    return "l";
+  }
+  function buildMap(el, lib) {
+    const t = PF.t, has = t.lat !== "" && t.lat != null && t.lng !== "" && t.lng != null, c = has ? [+t.lat, +t.lng] : [-9.4438, 147.1803];
+    if (lib === "g") {
+      const m = new google.maps.Map(el, {center: {lat: c[0], lng: c[1]}, zoom: has ? 15 : 12, streetViewControl: false, mapTypeControl: false});
+      let mk = null;
+      const place = (la, ln, zoom) => {
+        if (!mk) { mk = new google.maps.Marker({map: m, draggable: true}); mk.addListener("dragend", () => { const p = mk.getPosition(); setPin(p.lat(), p.lng(), false); }); }
+        mk.setPosition({lat: la, lng: ln}); if (zoom) { m.setCenter({lat: la, lng: ln}); m.setZoom(16); }
+      };
+      m.addListener("click", e => setPin(e.latLng.lat(), e.latLng.lng(), false));
+      MAPI = {place, remove: () => { if (mk) { mk.setMap(null); mk = null; } }};
+    } else {
+      const m = L.map(el).setView(c, has ? 15 : 12);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom: 19, attribution: "&copy; OpenStreetMap contributors"}).addTo(m);
+      let mk = null;
+      const place = (la, ln, zoom) => {
+        if (!mk) { mk = L.marker([la, ln], {draggable: true}).addTo(m); mk.on("dragend", () => { const p = mk.getLatLng(); setPin(p.lat, p.lng, false); }); }
+        mk.setLatLng([la, ln]); if (zoom) m.setView([la, ln], 16);
+      };
+      m.on("click", e => setPin(e.latlng.lat, e.latlng.lng, false));
+      MAPI = {place, remove: () => { if (mk) { m.removeLayer(mk); mk = null; } }};
+      setTimeout(() => m.invalidateSize(), 200);
+    }
+    if (has) MAPI.place(c[0], c[1], false);
+  }
+  function initMap() {
+    const el = $("tlmap"); if (!el || el.dataset.init) return; el.dataset.init = "1"; MAPI = null;
+    mapLib().then(lib => buildMap(el, lib)).catch(() => { el.innerHTML = '<p class="m" style="padding:14px">The map could not load. You can still type your suburb above.</p>'; });
+  }
+  async function setPin(la, ln, recenter) {
+    la = +(+la).toFixed(5); ln = +(+ln).toFixed(5); PF.t.lat = la; PF.t.lng = ln; sv_();
+    if (MAPI) MAPI.place(la, ln, recenter); pmsg("Pin set. Finding the area name\u2026");
+    try {
+      const p = await placeName({latitude: la, longitude: ln}), nm = p.suburb || p.city;
+      const inp = q1(`input[oninput*="setF('t','area'"]`);
+      if (nm && inp && !inp.value.trim()) fillInput(inp, nm);
+      if (p.city) { PF.t.city = p.city; sv_(); }
+      pmsg("Pin set" + (nm ? " near " + nm : "") + ". Drag it to move it.");
+    } catch (e) { pmsg("Pin set. Drag it to move it."); }
+  }
+  window.tlUseHere = () => { pmsg("Finding your location\u2026"); getPos().then(c => setPin(c.latitude, c.longitude, true)).catch(e => pmsg(e.message || String(e))); };
+  window.tlClearPin = () => { PF.t.lat = ""; PF.t.lng = ""; PF.t.live = false; sv_(); if (MAPI) MAPI.remove(); pmsg("Pin removed."); const c = q1('#dash input[type=checkbox][onchange*="tlLiveToggle"]'); if (c) c.checked = false; };
+  window.tlLiveToggle = async function (on) {
+    if (!on) { PF.t.live = false; sv_(); return; }
+    try { const c = await getPos(); PF.t.live = true; sv_(); if (PF.t.lat === "" || PF.t.lat == null) setPin(c.latitude, c.longitude, true); }
+    catch (e) { PF.t.live = false; const c = q1('#dash input[type=checkbox][onchange*="tlLiveToggle"]'); if (c) c.checked = false; alert(e.message || e); }
+  };
+  // live location while TradeLink is open (only for tradespeople who turned it on)
+  let watchId = null, lastPush = 0;
+  function liveTick() {
+    const want = !!(U && ME_ID && role === "t" && PF && PF.t && PF.t.live);
+    if (!want && watchId != null) { navigator.geolocation.clearWatch(watchId); watchId = null; SB.from("trade_listings").update({live_location: false}).eq("owner_id", ME_ID).then(() => {}, () => {}); return; }
+    if (want && watchId == null && navigator.geolocation) {
+      watchId = navigator.geolocation.watchPosition(p => {
+        const now = Date.now(); if (now - lastPush < 60000) return; lastPush = now;
+        const la = +p.coords.latitude.toFixed(5), ln = +p.coords.longitude.toFixed(5); PF.t.lat = la; PF.t.lng = ln;
+        SB.from("trade_listings").update({lat: la, lng: ln, live_location: true, live_updated_at: new Date().toISOString()}).eq("owner_id", ME_ID).then(() => {}, () => {});
+      }, () => {}, {enableHighAccuracy: false, maximumAge: 30000, timeout: 20000});
+    }
+  }
+  setInterval(() => safe(liveTick), 5000);
+
+  const _sl = window.saveListing;
+  window.saveListing = async function (s) {
+    PF.t.contact = PF.t.phone ? "Either" : "Message"; PF.t.vis = "public"; PF.t.dist = "";
+    if (!PF.t.city && PF.t.area) PF.t.city = PF.t.area;
+    await _sl(s);
+    try { await ck(SB.from("trade_listings").update({lat: PF.t.lat === "" || PF.t.lat == null ? null : +PF.t.lat, lng: PF.t.lng === "" || PF.t.lng == null ? null : +PF.t.lng, live_location: !!PF.t.live}).eq("owner_id", ME_ID)); }
+    catch (e) { console.warn("Map location not saved (run 11-fixes.sql?)", e.message || e); }
+  };
+  const _ll = window.loadListings;
+  window.loadListings = async function () {
+    await _ll();
+    try {
+      const rows = await ck(SB.from("public_listings").select("id,lat,lng,active_now"));
+      (rows || []).forEach(r => { const p = P.find(x => x.real && x.tt && x.tt.lid == r.id); if (p) { p.tt.lat = r.lat; p.tt.lng = r.lng; p.tt.activeNow = !!r.active_now; } });
+    } catch (e) { /* 11-fixes.sql not run yet */ }
+  };
+  const _pub = window.pub;
+  window.pub = function (t) {
+    let h = _pub(t);
+    const la = t && t.lat !== "" && t.lat != null ? +t.lat : NaN, ln = t && t.lng !== "" && t.lng != null ? +t.lng : NaN;
+    if (isFinite(la) && isFinite(ln)) {
+      const card = `<div class="card" style="margin-top:14px;padding:16px"><h3>Location</h3>${t.activeNow ? '<span class="tag" style="color:var(--grn);margin:0">Active now</span>' : ""}<iframe title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:220px;border:0;border-radius:10px;margin-top:8px" src="https://www.google.com/maps?q=${la},${ln}&z=15&output=embed"></iframe><p style="margin-top:8px"><a class="vf" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${la},${ln}">Open in Google Maps</a></p></div>`;
+      const mark = '<p style="text-align:center;margin:18px 0">';
+      h = h.includes(mark) ? h.replace(mark, card + mark) : h + card;
+    }
+    return h;
+  };
+  // quick controls on the tradesperson dashboard
+  const _dbd = window.dbd;
+  window.dbd = function () {
+    let h = _dbd();
+    if (role === "t" && PF.t) {
+      h += `<div class="card pad" style="margin-top:14px"><b>Active location</b><div class="m" style="margin:4px 0 10px">${PF.t.lat !== "" && PF.t.lat != null ? "Your pin is set" + (PF.t.area ? " near " + esc(PF.t.area) : "") + "." : "You have not placed a pin yet."}${PF.t.live ? " Live location is on." : ""}</div>
+<div class="cta"><button class="btn" onclick="tlSetNow()">Set to my current location</button><button class="btn o" onclick="editStep(4)">Open the map</button></div>
+<label class="fl" style="display:flex;gap:8px;align-items:flex-start;margin-top:12px"><input type="checkbox" ${PF.t.live ? "checked" : ""} onchange="tlLiveDash(this.checked)"> Show customers when I am active (live location)</label></div>`;
+    }
+    return h;
+  };
+  window.tlSetNow = async function () {
+    try {
+      const c = await getPos(), la = +c.latitude.toFixed(5), ln = +c.longitude.toFixed(5); PF.t.lat = la; PF.t.lng = ln;
+      await ck(SB.from("trade_listings").update({lat: la, lng: ln, live_updated_at: new Date().toISOString()}).eq("owner_id", ME_ID)); toast("Your active location was updated."); pn("dash");
+    } catch (e) { alert(e.message || e); }
+  };
+  window.tlLiveDash = async function (on) {
+    try {
+      if (on) await getPos(); PF.t.live = on;
+      await ck(SB.from("trade_listings").update({live_location: on}).eq("owner_id", ME_ID)); pn("dash");
+    } catch (e) { PF.t.live = false; alert(e.message || e); pn("dash"); }
+  };
+
+  /* ---- 7. tap your photo to change it ---- */
+  function enableAvatar(a) {
+    if (a.dataset.chg) return; a.dataset.chg = "1"; a.style.position = "relative"; a.style.cursor = "pointer"; a.title = "Change photo";
+    const b = document.createElement("span"); b.className = "tlcam"; b.textContent = "Change"; a.appendChild(b);
+    a.onclick = () => {
+      const i = document.createElement("input"); i.type = "file"; i.accept = "image/*"; i.style.display = "none";
+      i.onchange = async () => {
+        const f = i.files[0]; i.remove(); if (!f) return;
+        try {
+          toast("Uploading your photo\u2026");
+          const url = await upload("avatars", await shrink(f), "avatar");
+          await ck(SB.from("profiles").update({avatar_url: url}).eq("id", ME_ID));
+          PF.c.photo = url; PF.t.photo = url; await loadListings(); draw(); top_(); pn("pf"); toast("Your photo was updated.");
+        } catch (e) { alert("Could not change the photo: " + (e.message || e)); }
+      };
+      document.body.appendChild(i); i.click();
+    };
+  }
+
+  onDom(() => { safe(decorate); safe(trim); safe(initMap); qa("#dash .dm .card.pad.pr .av.big").forEach(a => safe(() => enableAvatar(a))); });
+})();
